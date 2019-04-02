@@ -30,19 +30,14 @@ import it.bytener.carbuddy.ui.viewmodels.MainFragmentViewModel;
 import it.bytener.carbuddy.ui.viewmodels.MainFragmentViewModelFactory;
 
 public class MainFragment extends Fragment {
-
-    @Inject
-    Context context;
-
-    @Inject
-    IVehicleProvider vehicleProvider;
-
-    @Inject
-    MainFragmentViewModelFactory mainFragmentViewModelFactory;
-
+    private Context context;
     private ViewPager vehiclesPager;
     private VehiclePagerAdapter vehiclePagerAdapter;
     private List<IVehicle> vehicleList;
+
+    private MainFragmentViewModel mainFragmentViewModel;
+    @Inject
+    MainFragmentViewModelFactory mainFragmentViewModelFactory;
 
     public MainFragment(){
 
@@ -51,6 +46,8 @@ public class MainFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        this.context = context;
+
         CarBuddyApplication.appComponent().inject(this);
 
         setupViewModel();
@@ -65,15 +62,10 @@ public class MainFragment extends Fragment {
         vehiclePagerAdapter = new VehiclePagerAdapter(context, vehicleList);
         vehiclesPager.setAdapter(vehiclePagerAdapter);
 
-        final Vehicle vehicle = new Vehicle();
-        vehicle.setBrand("Mercedes");
-        vehicle.setModel("Classe A");
-        vehicle.setCylinderSize(1500);
-        vehicle.setHorsepower(110);
         rootView.findViewById(R.id.button_add_vehicle).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                vehicleProvider.insertVehicle(vehicle);
+                mainFragmentViewModel.setVehicle(null);
             }
         });
 
@@ -81,7 +73,7 @@ public class MainFragment extends Fragment {
     }
 
     private void setupViewModel(){
-        MainFragmentViewModel mainFragmentViewModel = ViewModelProviders.of(this, mainFragmentViewModelFactory).get(MainFragmentViewModel.class);
+        mainFragmentViewModel = ViewModelProviders.of(this, mainFragmentViewModelFactory).get(MainFragmentViewModel.class);
         mainFragmentViewModel.getVehicles().observe(this, new Observer<List<Vehicle>>() {
             @Override
             public void onChanged(List<Vehicle> vehicles) {

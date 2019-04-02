@@ -19,4 +19,8 @@ public class MainFragmentViewModel extends ViewModel {
     public LiveData<List<Vehicle>> getVehicles() {
         return vehicleProvider.getVehicles();
     }
+
+    public void setVehicle(Vehicle vehicle){
+        vehicleProvider.insertVehicle(vehicle);
+    }
 }

@@ -23,6 +23,7 @@ public class VehicleProvider implements IVehicleProvider {
 
     public void insertVehicle(final Vehicle vehicle){
 
+
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
