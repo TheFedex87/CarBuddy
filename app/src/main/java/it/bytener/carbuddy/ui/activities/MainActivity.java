@@ -1,19 +1,13 @@
-package it.bytener.carbuddy.ui;
+package it.bytener.carbuddy.ui.activities;
 
 import android.os.Bundle;
-
-import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import it.bytener.carbuddy.R;
