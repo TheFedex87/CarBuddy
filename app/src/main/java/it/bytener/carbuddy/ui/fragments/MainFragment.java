@@ -36,7 +36,7 @@ public class MainFragment extends Fragment {
     private List<IVehicle> vehicleList;
 
     private MainFragmentViewModel mainFragmentViewModel;
-    @Inject
+
     MainFragmentViewModelFactory mainFragmentViewModelFactory;
 
     public MainFragment(){
@@ -65,7 +65,11 @@ public class MainFragment extends Fragment {
         rootView.findViewById(R.id.button_add_vehicle).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainFragmentViewModel.setVehicle(null);
+                Vehicle vehicle = new Vehicle();
+                vehicle.setModel("Serie 1");
+                vehicle.setBrand("BMW");
+
+                mainFragmentViewModel.setVehicle(vehicle);
             }
         });
 

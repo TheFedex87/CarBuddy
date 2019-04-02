@@ -28,8 +28,8 @@ public class ApplicationModule {
     @Singleton
     @Provides
     public IVehicleProvider provideVehicleProvider(AppDatabase db){
-        //return new VehicleProvider(db);
-        return new MockVehicleProvider();
+        return new VehicleProvider(db);
+        //return new MockVehicleProvider();
     }
 
     @Provides
