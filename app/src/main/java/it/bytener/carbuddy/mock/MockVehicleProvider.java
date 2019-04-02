@@ -6,6 +6,7 @@ import java.util.Random;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import it.bytener.carbuddy.interfaces.IBackgroundOperationResponse;
 import it.bytener.carbuddy.interfaces.IVehicleProvider;
 import it.bytener.carbuddy.interfaces.models.IVehicle;
 import it.bytener.carbuddy.room.entities.Vehicle;
@@ -41,13 +42,14 @@ public class MockVehicleProvider implements IVehicleProvider {
     }
 
     @Override
-    public void insertVehicle(Vehicle vehicle) {
+    public void insertVehicle(Vehicle vehicle, IBackgroundOperationResponse response) {
         if(vehicle == null){
             int rnd = random.nextInt(vehiclesAvailable.size());
             vehicle = vehiclesAvailable.get(rnd);
+            response.getResponse(rnd);
         }
         vehicles.add(vehicle);
-
         mutableVehicles.setValue(vehicles);
+
     }
 }

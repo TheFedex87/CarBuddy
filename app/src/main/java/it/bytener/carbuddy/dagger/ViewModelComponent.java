@@ -8,5 +8,5 @@ import it.bytener.carbuddy.ui.viewmodels.MainFragmentViewModelFactory;
 @Singleton
 @Component( modules = { ViewModelModule.class, ApplicationModule.class })
 public interface ViewModelComponent {
-    //MainFragmentViewModelFactory getMainFragmentViewModelFactory();
+    MainFragmentViewModelFactory getMainFragmentViewModelFactory();
 }

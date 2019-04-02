@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +22,10 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 import it.bytener.carbuddy.R;
 import it.bytener.carbuddy.application.CarBuddyApplication;
+import it.bytener.carbuddy.dagger.ApplicationModule;
 import it.bytener.carbuddy.dagger.DaggerViewModelComponent;
+import it.bytener.carbuddy.dagger.ViewModelModule;
+import it.bytener.carbuddy.interfaces.IBackgroundOperationResponse;
 import it.bytener.carbuddy.interfaces.IVehicleProvider;
 import it.bytener.carbuddy.interfaces.models.IVehicle;
 import it.bytener.carbuddy.room.AppDatabase;
@@ -29,7 +34,7 @@ import it.bytener.carbuddy.ui.adapters.VehiclePagerAdapter;
 import it.bytener.carbuddy.ui.viewmodels.MainFragmentViewModel;
 import it.bytener.carbuddy.ui.viewmodels.MainFragmentViewModelFactory;
 
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements IBackgroundOperationResponse {
     private Context context;
     private ViewPager vehiclesPager;
     private VehiclePagerAdapter vehiclePagerAdapter;
@@ -50,6 +55,13 @@ public class MainFragment extends Fragment {
 
         CarBuddyApplication.appComponent().inject(this);
 
+        mainFragmentViewModelFactory = DaggerViewModelComponent
+                .builder()
+                .viewModelModule(new ViewModelModule(this))
+                .applicationModule(new ApplicationModule(context))
+                .build()
+                .getMainFragmentViewModelFactory();
+
         setupViewModel();
     }
 
@@ -68,7 +80,7 @@ public class MainFragment extends Fragment {
                 Vehicle vehicle = new Vehicle();
                 vehicle.setModel("Serie 1");
                 vehicle.setBrand("BMW");
-
+                vehicle = null;
                 mainFragmentViewModel.setVehicle(vehicle);
             }
         });
@@ -88,5 +100,10 @@ public class MainFragment extends Fragment {
                 vehicleList = iVehicles;
             }
         });
+    }
+
+    @Override
+    public void getResponse(long r) {
+        Snackbar.make(getActivity().findViewById(R.id.main_layout), String.valueOf(r), Snackbar.LENGTH_LONG).show();
     }
 }
