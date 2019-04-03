@@ -11,8 +11,8 @@ import it.bytener.carbuddy.interfaces.models.IVehicle;
 import it.bytener.carbuddy.room.AppDatabase;
 import it.bytener.carbuddy.room.entities.Vehicle;
 
-public class VehicleProvider implements IVehicleProvider, IBackgroundOperationResponse {
-    AppDatabase db;
+public class VehicleProvider implements IVehicleProvider {
+    private AppDatabase db;
 
     public VehicleProvider(AppDatabase db){
         this.db = db;
@@ -24,8 +24,6 @@ public class VehicleProvider implements IVehicleProvider, IBackgroundOperationRe
     }
 
     public void insertVehicle(final Vehicle vehicle, IBackgroundOperationResponse response){
-
-
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
@@ -33,10 +31,5 @@ public class VehicleProvider implements IVehicleProvider, IBackgroundOperationRe
                 response.getResponse(newId);
             }
         });
-    }
-
-    @Override
-    public void getResponse(long r) {
-
     }
 }
