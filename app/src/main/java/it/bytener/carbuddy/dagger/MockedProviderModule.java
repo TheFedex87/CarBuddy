@@ -1,6 +1,5 @@
 package it.bytener.carbuddy.dagger;
 
-
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -10,21 +9,18 @@ import it.bytener.carbuddy.interfaces.IVehicleProvider;
 import it.bytener.carbuddy.mock.MockPaymentProvider;
 import it.bytener.carbuddy.mock.MockVehicleProvider;
 import it.bytener.carbuddy.room.AppDatabase;
-import it.bytener.carbuddy.room.providers.PaymentProvider;
-import it.bytener.carbuddy.room.providers.VehicleProvider;
 
 @Module
-public class ProviderModule {
-
+public class MockedProviderModule {
     @Singleton
     @Provides
     public IVehicleProvider provideVehicleProvider(AppDatabase db){
-        return new VehicleProvider(db);
+        return new MockVehicleProvider();
     }
 
     @Singleton
     @Provides
     public IPaymentProvider providePaymentProvider(AppDatabase db){
-        return new PaymentProvider(db);
+        return new MockPaymentProvider();
     }
 }

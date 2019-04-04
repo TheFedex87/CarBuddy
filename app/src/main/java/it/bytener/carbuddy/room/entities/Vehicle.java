@@ -12,6 +12,7 @@ public class Vehicle implements IVehicle {
     private String model;
     private long cylinderSize;
     private int horsepower;
+    private String licensePlate;
 
     @Override
     public long getId(){
@@ -56,4 +57,9 @@ public class Vehicle implements IVehicle {
     public void setHorsepower(int horsePower) {
         this.horsepower = horsePower;
     }
+
+    @Override
+    public String getLicensePlate() { return licensePlate; }
+    @Override
+    public void setLicensePlate(String licensePlate) { this.licensePlate = licensePlate; }
 }

@@ -15,4 +15,7 @@ public interface IVehicle {
 
     int getHorsepower();
     void setHorsepower(int horsepower);
+
+    String getLicensePlate();
+    void setLicensePlate(String licensePlate);
 }

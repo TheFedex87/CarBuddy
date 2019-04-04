@@ -19,6 +19,6 @@ public interface IPayment {
     void setNote(String note);
 
     //Chiave esterna che fa riferimento al veicolo
-    long vehicleId();
-    void vehicleId(long vehicleId);
+    long getVehicleId();
+    void setVehicleId(long vehicleId);
 }

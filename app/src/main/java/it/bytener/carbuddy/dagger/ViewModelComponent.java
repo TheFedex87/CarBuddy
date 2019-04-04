@@ -6,7 +6,7 @@ import dagger.Component;
 import it.bytener.carbuddy.ui.viewmodels.MainFragmentViewModelFactory;
 
 @Singleton
-@Component( modules = { ViewModelModule.class, ApplicationModule.class, ProviderModule.class })
+@Component( modules = { ViewModelModule.class, ApplicationModule.class, MockedProviderModule.class })
 public interface ViewModelComponent {
     MainFragmentViewModelFactory getMainFragmentViewModelFactory();
 }

@@ -68,11 +68,11 @@ public class Payment implements IPayment {
     }
 
     @Override
-    public long vehicleId() {
+    public long getVehicleId() {
         return vehicleId;
     }
     @Override
-    public void vehicleId(long vehicleId) {
+    public void setVehicleId(long vehicleId) {
         this.vehicleId = vehicleId;
     }
 }
