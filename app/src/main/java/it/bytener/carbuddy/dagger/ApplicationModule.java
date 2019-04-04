@@ -25,12 +25,7 @@ public class ApplicationModule {
         return context;
     }
 
-    @Singleton
-    @Provides
-    public IVehicleProvider provideVehicleProvider(AppDatabase db){
-        //return new VehicleProvider(db);
-        return new MockVehicleProvider();
-    }
+
 
     @Provides
     public AppDatabase provideDatabase(Context context){

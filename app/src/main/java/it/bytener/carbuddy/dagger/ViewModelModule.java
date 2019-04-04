@@ -5,6 +5,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import it.bytener.carbuddy.interfaces.IBackgroundOperationResponse;
+import it.bytener.carbuddy.interfaces.IPaymentProvider;
 import it.bytener.carbuddy.interfaces.IVehicleProvider;
 import it.bytener.carbuddy.ui.viewmodels.MainFragmentViewModelFactory;
 
@@ -18,7 +19,7 @@ public class ViewModelModule {
 
     @Singleton
     @Provides
-    public MainFragmentViewModelFactory provideMainFragmentViewModelFactory(IVehicleProvider vehicleProvider){
-        return new MainFragmentViewModelFactory(vehicleProvider, response);
+    public MainFragmentViewModelFactory provideMainFragmentViewModelFactory(IVehicleProvider vehicleProvider, IPaymentProvider paymentProvider){
+        return new MainFragmentViewModelFactory(vehicleProvider, paymentProvider, response);
     }
 }
