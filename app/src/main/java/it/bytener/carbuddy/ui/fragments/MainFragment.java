@@ -83,16 +83,29 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
 
         vehiclePagerAdapter = new VehiclePagerAdapter(context, vehicleList);
         vehiclesPager.setAdapter(vehiclePagerAdapter);
-
-        addVehicleButton.setOnClickListener(new View.OnClickListener() {
+        vehiclesPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onClick(View v) {
-                Vehicle vehicle = new Vehicle();
-                vehicle.setModel("Serie 1");
-                vehicle.setBrand("BMW");
-                vehicle = null;
-                mainFragmentViewModel.setVehicle(vehicle);
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
             }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        addVehicleButton.setOnClickListener(v -> {
+            Vehicle vehicle = new Vehicle();
+            vehicle.setModel("Serie 1");
+            vehicle.setBrand("BMW");
+            vehicle = null;
+            mainFragmentViewModel.setVehicle(vehicle);
         });
 
         return rootView;
@@ -100,15 +113,12 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
 
     private void setupViewModel(){
         mainFragmentViewModel = ViewModelProviders.of(this, mainFragmentViewModelFactory).get(MainFragmentViewModel.class);
-        mainFragmentViewModel.getVehicles().observe(this, new Observer<List<Vehicle>>() {
-            @Override
-            public void onChanged(List<Vehicle> vehicles) {
-                List<IVehicle> iVehicles = new ArrayList<IVehicle>(vehicles);
-                if(vehiclePagerAdapter != null){
-                    vehiclePagerAdapter.swapVehicles(iVehicles);
-                }
-                vehicleList = iVehicles;
+        mainFragmentViewModel.getVehicles().observe(this, vehicles -> {
+            List<IVehicle> iVehicles = new ArrayList<IVehicle>(vehicles);
+            if(vehiclePagerAdapter != null){
+                vehiclePagerAdapter.swapVehicles(iVehicles);
             }
+            vehicleList = iVehicles;
         });
     }
 

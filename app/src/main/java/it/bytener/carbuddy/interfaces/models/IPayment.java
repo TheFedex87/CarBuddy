@@ -1,15 +1,12 @@
 package it.bytener.carbuddy.interfaces.models;
 
-public interface IPayment {
+public interface IPayment extends IReminder {
     long getId();
     void setId(long id);
 
     //Tipologia del pagamento: BOLLO, ASSICURAZIONE, ALTRO..
     String getTipology();
     void setTipology(String tipology);
-
-    String getDescription();
-    void setDescription(String description);
 
     //Numero di secondi dal 1970 che rappresentano la data di pagamento
     long getPaymentDate();
