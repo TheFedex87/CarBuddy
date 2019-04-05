@@ -28,7 +28,7 @@ public class VehicleProvider implements IVehicleProvider {
             @Override
             public void run() {
                 long newId = db.vehicleDao().insertVehicle(vehicle);
-                response.getResponse(newId);
+                response.getResponse(newId, vehicle);
             }
         });
     }

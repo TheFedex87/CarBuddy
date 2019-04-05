@@ -22,12 +22,17 @@ public class PaymentProvider implements IPaymentProvider {
     }
 
     @Override
+    public LiveData<List<Payment>> getAllPayments(){
+        return db.paymentDao().allPayments();
+    }
+
+    @Override
     public void insertPayment(Payment payment, IBackgroundOperationResponse response) {
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
                 long newId = db.paymentDao().insertPayment(payment);
-                response.getResponse(newId);
+                response.getResponse(newId, payment);
             }
         });
     }

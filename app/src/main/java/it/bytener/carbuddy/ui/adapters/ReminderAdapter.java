@@ -18,8 +18,8 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
 
     private List<IReminder> reminders;
 
-    public ReminderAdapter(){
-
+    public ReminderAdapter(List<IReminder> reminders){
+        this.reminders = reminders;
     }
 
     public void swapReminders(List<IReminder> reminders){

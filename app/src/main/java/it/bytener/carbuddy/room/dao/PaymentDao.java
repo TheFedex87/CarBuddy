@@ -13,6 +13,9 @@ public interface PaymentDao {
     @Query("SELECT * FROM payment WHERE vehicleId = :vehicleId")
     LiveData<List<Payment>> paymentOfVehicle(long vehicleId);
 
+    @Query("SELECT * FROM payment")
+    LiveData<List<Payment>> allPayments();
+
     @Insert
     long insertPayment(Payment vehicle);
 }

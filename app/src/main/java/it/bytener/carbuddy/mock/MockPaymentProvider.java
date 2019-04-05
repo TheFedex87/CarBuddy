@@ -19,7 +19,9 @@ public class MockPaymentProvider implements IPaymentProvider {
     Random random = new Random();
 
     public MockPaymentProvider(){
+        mutablePayments = new MutableLiveData<>();
         paymentsAvailable = new ArrayList<>();
+        payments = new ArrayList<>();
 
         Payment payment = new Payment();
         payment.setTipology("BOLLO");
@@ -33,6 +35,7 @@ public class MockPaymentProvider implements IPaymentProvider {
         }
         payment.setPaymentDate(paymentDateMilli);
         paymentsAvailable.add(payment);
+        payments.add(payment);
 
         payment = new Payment();
         payment.setTipology("ASSICURAZIONE");
@@ -46,6 +49,7 @@ public class MockPaymentProvider implements IPaymentProvider {
         }
         payment.setPaymentDate(paymentDateMilli);
         paymentsAvailable.add(payment);
+        payments.add(payment);
 
         payment = new Payment();
         payment.setTipology("ASSICURAZIONE");
@@ -59,6 +63,8 @@ public class MockPaymentProvider implements IPaymentProvider {
         }
         payment.setPaymentDate(paymentDateMilli);
         paymentsAvailable.add(payment);
+        payments.add(payment);
+
     }
 
     @Override
@@ -77,11 +83,17 @@ public class MockPaymentProvider implements IPaymentProvider {
     }
 
     @Override
+    public LiveData<List<Payment>> getAllPayments() {
+        mutablePayments.setValue(payments);
+        return mutablePayments;
+    }
+
+    @Override
     public void insertPayment(Payment payment, IBackgroundOperationResponse response) {
         if(payment == null){
             int rnd = random.nextInt(paymentsAvailable.size());
             payment = paymentsAvailable.get(rnd);
-            response.getResponse(rnd);
+            response.getResponse(rnd, payment);
         }
         payments.add(payment);
         mutablePayments.setValue(payments);

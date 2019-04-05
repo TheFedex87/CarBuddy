@@ -12,8 +12,6 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -29,10 +27,11 @@ import it.bytener.carbuddy.dagger.ApplicationModule;
 import it.bytener.carbuddy.dagger.DaggerViewModelComponent;
 import it.bytener.carbuddy.dagger.ViewModelModule;
 import it.bytener.carbuddy.interfaces.IBackgroundOperationResponse;
-import it.bytener.carbuddy.interfaces.IVehicleProvider;
+import it.bytener.carbuddy.interfaces.models.IReminder;
 import it.bytener.carbuddy.interfaces.models.IVehicle;
-import it.bytener.carbuddy.room.AppDatabase;
+import it.bytener.carbuddy.room.entities.Payment;
 import it.bytener.carbuddy.room.entities.Vehicle;
+import it.bytener.carbuddy.ui.adapters.ReminderAdapter;
 import it.bytener.carbuddy.ui.adapters.VehiclePagerAdapter;
 import it.bytener.carbuddy.ui.viewmodels.MainFragmentViewModel;
 import it.bytener.carbuddy.ui.viewmodels.MainFragmentViewModelFactory;
@@ -41,6 +40,11 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
     private Context context;
     private VehiclePagerAdapter vehiclePagerAdapter;
     private List<IVehicle> vehicleList;
+
+    private ReminderAdapter reminderAdapter;
+    private List<IReminder> reminderList;
+
+
 
     private MainFragmentViewModel mainFragmentViewModel;
 
@@ -91,7 +95,7 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
 
             @Override
             public void onPageSelected(int position) {
-
+                mainFragmentViewModel.setPaymentVehicleId(position);
             }
 
             @Override
@@ -99,6 +103,8 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
 
             }
         });
+
+        reminderAdapter = new ReminderAdapter(reminderList);
 
         addVehicleButton.setOnClickListener(v -> {
             Vehicle vehicle = new Vehicle();
@@ -113,6 +119,7 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
 
     private void setupViewModel(){
         mainFragmentViewModel = ViewModelProviders.of(this, mainFragmentViewModelFactory).get(MainFragmentViewModel.class);
+
         mainFragmentViewModel.getVehicles().observe(this, vehicles -> {
             List<IVehicle> iVehicles = new ArrayList<IVehicle>(vehicles);
             if(vehiclePagerAdapter != null){
@@ -120,10 +127,17 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
             }
             vehicleList = iVehicles;
         });
+
+        mainFragmentViewModel.getPayments().observe(this, new Observer<List<Payment>>() {
+            @Override
+            public void onChanged(List<Payment> payments) {
+
+            }
+        });
     }
 
     @Override
-    public void getResponse(long r) {
+    public void getResponse(long r, Object sender) {
         Snackbar.make(getActivity().findViewById(R.id.main_layout), String.valueOf(r), Snackbar.LENGTH_LONG).show();
     }
 }

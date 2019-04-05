@@ -46,7 +46,7 @@ public class MockVehicleProvider implements IVehicleProvider {
         if(vehicle == null){
             int rnd = random.nextInt(vehiclesAvailable.size());
             vehicle = vehiclesAvailable.get(rnd);
-            response.getResponse(rnd);
+            response.getResponse(rnd, vehicle);
         }
         vehicles.add(vehicle);
         mutableVehicles.setValue(vehicles);
