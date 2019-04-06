@@ -26,7 +26,6 @@ public class MainFragmentViewModel extends ViewModel {
         this.paymentProvider = paymentProvider;
         this.response = response;
 
-        vehicleIdQuery.setValue(0l);
         paymentOfVehicle = Transformations.switchMap(vehicleIdQuery, id -> paymentProvider.getPayments(id));
     }
 

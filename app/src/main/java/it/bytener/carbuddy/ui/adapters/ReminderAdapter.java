@@ -53,7 +53,7 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
         public ReminderViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            ButterKnife.bind(itemView);
+            ButterKnife.bind(this, itemView);
         }
 
         public void bindView(int position){

@@ -21,10 +21,10 @@ public class PaymentProvider implements IPaymentProvider {
         return db.paymentDao().paymentOfVehicle(vehicleId);
     }
 
-    @Override
+    /*@Override
     public LiveData<List<Payment>> getAllPayments(){
         return db.paymentDao().allPayments();
-    }
+    }*/
 
     @Override
     public void insertPayment(Payment payment, IBackgroundOperationResponse response) {

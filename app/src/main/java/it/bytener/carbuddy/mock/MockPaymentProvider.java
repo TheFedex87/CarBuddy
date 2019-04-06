@@ -83,18 +83,12 @@ public class MockPaymentProvider implements IPaymentProvider {
     }
 
     @Override
-    public LiveData<List<Payment>> getAllPayments() {
-        mutablePayments.setValue(payments);
-        return mutablePayments;
-    }
-
-    @Override
     public void insertPayment(Payment payment, IBackgroundOperationResponse response) {
-        if(payment == null){
+        //if(payment == null){
             int rnd = random.nextInt(paymentsAvailable.size());
             payment = paymentsAvailable.get(rnd);
             response.getResponse(rnd, payment);
-        }
+        //}
         payments.add(payment);
         mutablePayments.setValue(payments);
     }

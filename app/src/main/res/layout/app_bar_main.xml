@@ -38,12 +38,24 @@
                 app:contentInsetStart="@dimen/detail_content_intent_start"
                 app:layout_collapseMode="pin" />
 
-            <Button
-                android:id="@+id/button_add_vehicle"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Button"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:orientation="vertical">
+                <Button
+                    android:id="@+id/button_add_vehicle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Add vehicle" />
+
+                <Button
+                    android:id="@+id/button_add_payment"
+                    android:layout_width="@dimen/match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Add payment" />
+            </LinearLayout>
+
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
