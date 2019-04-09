@@ -1,5 +1,7 @@
 package it.bytener.carbuddy.ui.viewmodels;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
@@ -13,6 +15,7 @@ public class MainFragmentViewModelFactory extends ViewModelProvider.NewInstanceF
     private final IPaymentProvider paymentProvider;
     private final IBackgroundOperationResponse response;
 
+    @Inject
     public MainFragmentViewModelFactory(IVehicleProvider vehicleProvider, IPaymentProvider paymentProvider, IBackgroundOperationResponse response){
         this.vehicleProvider = vehicleProvider;
         this.paymentProvider = paymentProvider;

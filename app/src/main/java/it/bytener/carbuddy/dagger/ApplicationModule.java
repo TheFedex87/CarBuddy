@@ -15,9 +15,9 @@ import it.bytener.carbuddy.room.providers.VehicleProvider;
 public class ApplicationModule {
     private Context context;
 
-    public ApplicationModule(Context context){
+    /*public ApplicationModule(Context context){
         this.context = context;
-    }
+    }*/
 
     @Singleton
     @Provides

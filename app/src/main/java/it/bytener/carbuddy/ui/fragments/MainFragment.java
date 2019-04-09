@@ -79,8 +79,7 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
 
         mainFragmentViewModelFactory = DaggerViewModelComponent
                 .builder()
-                .viewModelModule(new ViewModelModule(this))
-                .applicationModule(new ApplicationModule(context))
+                .response(this)
                 .build()
                 .getMainFragmentViewModelFactory();
 

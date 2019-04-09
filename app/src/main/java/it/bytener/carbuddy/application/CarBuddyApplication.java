@@ -13,7 +13,8 @@ public class CarBuddyApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        appComponent = DaggerApplicationComponent.builder().applicationModule(new ApplicationModule(getApplicationContext())).build();
+        //appComponent = DaggerApplicationComponent.builder().applicationModule(new ApplicationModule(getApplicationContext())).build();
+        appComponent = DaggerApplicationComponent.builder().context(getApplicationContext()).build();
     }
 
     public static ApplicationComponent appComponent(){

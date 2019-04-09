@@ -1,7 +1,10 @@
 package it.bytener.carbuddy.dagger;
 
+import android.content.Context;
+
 import javax.inject.Singleton;
 
+import dagger.BindsInstance;
 import dagger.Component;
 import it.bytener.carbuddy.ui.fragments.MainFragment;
 
@@ -9,4 +12,12 @@ import it.bytener.carbuddy.ui.fragments.MainFragment;
 @Component(modules =  { ApplicationModule.class } )
 public interface ApplicationComponent {
     void inject(MainFragment mainFragment);
+
+    @Component.Builder
+    interface Builder {
+        @BindsInstance
+        Builder context(Context context);
+
+        ApplicationComponent build();
+    }
 }

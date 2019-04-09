@@ -11,15 +11,15 @@ import it.bytener.carbuddy.ui.viewmodels.MainFragmentViewModelFactory;
 
 @Module
 public class ViewModelModule {
-    private IBackgroundOperationResponse response;
+    //private IBackgroundOperationResponse response;
 
-    public ViewModelModule(IBackgroundOperationResponse response){
+    /*public ViewModelModule(IBackgroundOperationResponse response){
         this.response = response;
-    }
+    }*/
 
     @Singleton
     @Provides
-    public MainFragmentViewModelFactory provideMainFragmentViewModelFactory(IVehicleProvider vehicleProvider, IPaymentProvider paymentProvider){
+    public MainFragmentViewModelFactory provideMainFragmentViewModelFactory(IVehicleProvider vehicleProvider, IPaymentProvider paymentProvider, IBackgroundOperationResponse response){
         return new MainFragmentViewModelFactory(vehicleProvider, paymentProvider, response);
     }
 }
