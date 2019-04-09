@@ -14,7 +14,7 @@ public class NetworkModule {
 
     @Singleton
     @Provides
-    public Picasso providePicasso(){
+    static Picasso providePicasso(){
         return Picasso.get();
     }
 }

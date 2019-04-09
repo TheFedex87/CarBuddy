@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javax.inject.Inject;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import it.bytener.carbuddy.interfaces.IBackgroundOperationResponse;
@@ -17,6 +19,7 @@ public class MockVehicleProvider implements IVehicleProvider {
     MutableLiveData<List<Vehicle>> mutableVehicles;
     Random random = new Random();
 
+    @Inject
     public MockVehicleProvider(){
         mutableVehicles = new MutableLiveData<>();
         vehicles = new ArrayList();

@@ -3,6 +3,8 @@ package it.bytener.carbuddy.room.providers;
 import java.util.List;
 import java.util.function.Predicate;
 
+import javax.inject.Inject;
+
 import androidx.lifecycle.LiveData;
 import it.bytener.carbuddy.executors.AppExecutors;
 import it.bytener.carbuddy.interfaces.IBackgroundOperationResponse;
@@ -14,6 +16,7 @@ import it.bytener.carbuddy.room.entities.Vehicle;
 public class VehicleProvider implements IVehicleProvider {
     private AppDatabase db;
 
+    @Inject
     public VehicleProvider(AppDatabase db){
         this.db = db;
     }

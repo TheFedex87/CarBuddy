@@ -3,6 +3,7 @@ package it.bytener.carbuddy.dagger;
 
 import javax.inject.Singleton;
 
+import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 import it.bytener.carbuddy.interfaces.IPaymentProvider;
@@ -14,17 +15,13 @@ import it.bytener.carbuddy.room.providers.PaymentProvider;
 import it.bytener.carbuddy.room.providers.VehicleProvider;
 
 @Module
-public class ProviderModule {
+public abstract class ProviderModule {
 
     @Singleton
-    @Provides
-    public IVehicleProvider provideVehicleProvider(AppDatabase db){
-        return new VehicleProvider(db);
-    }
+    @Binds
+    abstract IVehicleProvider bindVehicleProvider(VehicleProvider vehicleProvider);
 
     @Singleton
-    @Provides
-    public IPaymentProvider providePaymentProvider(AppDatabase db){
-        return new PaymentProvider(db);
-    }
+    @Binds
+    abstract IPaymentProvider bindPaymentProvider(PaymentProvider paymentProvider);
 }

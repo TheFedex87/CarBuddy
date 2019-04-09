@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javax.inject.Inject;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import it.bytener.carbuddy.dagger.MockedProviderModule;
@@ -18,6 +20,7 @@ public class MockPaymentProvider implements IPaymentProvider {
     MutableLiveData<List<Payment>> mutablePayments;
     Random random = new Random();
 
+    @Inject
     public MockPaymentProvider(){
         mutablePayments = new MutableLiveData<>();
         paymentsAvailable = new ArrayList<>();
