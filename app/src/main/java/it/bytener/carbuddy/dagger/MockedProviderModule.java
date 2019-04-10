@@ -13,11 +13,10 @@ import it.bytener.carbuddy.room.AppDatabase;
 
 @Module
 public abstract class MockedProviderModule {
-    @Singleton
+
     @Binds
     abstract IVehicleProvider bindVehicleProvider(MockVehicleProvider mockVehicleProvider);
 
-    @Singleton
     @Binds
     abstract IPaymentProvider bindPaymentProvider(MockPaymentProvider mockPaymentProvider);
 }

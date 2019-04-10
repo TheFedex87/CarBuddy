@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import androidx.lifecycle.LiveData;
 import it.bytener.carbuddy.executors.AppExecutors;
@@ -13,6 +14,7 @@ import it.bytener.carbuddy.interfaces.models.IVehicle;
 import it.bytener.carbuddy.room.AppDatabase;
 import it.bytener.carbuddy.room.entities.Vehicle;
 
+@Singleton
 public class VehicleProvider implements IVehicleProvider {
     private AppDatabase db;
 

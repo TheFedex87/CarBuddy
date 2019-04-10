@@ -2,11 +2,11 @@ package it.bytener.carbuddy.ui.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -25,12 +25,9 @@ import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.bytener.carbuddy.R;
-import it.bytener.carbuddy.application.CarBuddyApplication;
-import it.bytener.carbuddy.dagger.ApplicationModule;
 import it.bytener.carbuddy.dagger.DaggerViewModelComponent;
-import it.bytener.carbuddy.dagger.ViewModelModule;
+import it.bytener.carbuddy.dagger.ViewModelComponent;
 import it.bytener.carbuddy.interfaces.IBackgroundOperationResponse;
-import it.bytener.carbuddy.interfaces.models.IPayment;
 import it.bytener.carbuddy.interfaces.models.IReminder;
 import it.bytener.carbuddy.interfaces.models.IVehicle;
 import it.bytener.carbuddy.room.entities.Payment;
@@ -42,14 +39,13 @@ import it.bytener.carbuddy.ui.viewmodels.MainFragmentViewModelFactory;
 
 public class MainFragment extends Fragment implements IBackgroundOperationResponse {
     private boolean firstLoadDone = false;
+
     private Context context;
     private VehiclePagerAdapter vehiclePagerAdapter;
     private List<IVehicle> vehicleList;
 
     private ReminderAdapter reminderAdapter;
     private List<IReminder> reminderList;
-
-
 
     private MainFragmentViewModel mainFragmentViewModel;
 
@@ -75,10 +71,11 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
         super.onAttach(context);
         this.context = context;
 
-        CarBuddyApplication.appComponent().inject(this);
+        //CarBuddyApplication.appComponent().inject(this);
 
         mainFragmentViewModelFactory = DaggerViewModelComponent
                 .builder()
+                .context(context)
                 .response(this)
                 .build()
                 .getMainFragmentViewModelFactory();
@@ -103,7 +100,7 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
 
             @Override
             public void onPageSelected(int position) {
-                mainFragmentViewModel.setPaymentVehicleId(position);
+                mainFragmentViewModel.setPaymentVehicleId(vehicleList.get(position).getId());
             }
 
             @Override
@@ -120,7 +117,6 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
             Vehicle vehicle = new Vehicle();
             vehicle.setModel("Serie 1");
             vehicle.setBrand("BMW");
-            //vehicle = null;
             mainFragmentViewModel.setVehicle(vehicle);
         });
 

@@ -17,9 +17,9 @@ public class ViewModelModule {
         this.response = response;
     }*/
 
-    @Singleton
+    /*@Singleton
     @Provides
     public MainFragmentViewModelFactory provideMainFragmentViewModelFactory(IVehicleProvider vehicleProvider, IPaymentProvider paymentProvider, IBackgroundOperationResponse response){
         return new MainFragmentViewModelFactory(vehicleProvider, paymentProvider, response);
-    }
+    }*/
 }

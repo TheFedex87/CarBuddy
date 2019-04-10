@@ -17,11 +17,9 @@ import it.bytener.carbuddy.room.providers.VehicleProvider;
 @Module
 public abstract class ProviderModule {
 
-    @Singleton
     @Binds
     abstract IVehicleProvider bindVehicleProvider(VehicleProvider vehicleProvider);
 
-    @Singleton
     @Binds
     abstract IPaymentProvider bindPaymentProvider(PaymentProvider paymentProvider);
 }

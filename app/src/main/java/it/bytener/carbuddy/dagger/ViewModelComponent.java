@@ -10,14 +10,14 @@ import it.bytener.carbuddy.interfaces.IBackgroundOperationResponse;
 import it.bytener.carbuddy.ui.viewmodels.MainFragmentViewModelFactory;
 
 @Singleton
-@Component( modules = { ViewModelModule.class, ApplicationModule.class, ProviderModule.class })
+@Component( modules = { ViewModelModule.class, ApplicationModule.class, MockedProviderModule.class })
 public interface ViewModelComponent {
     MainFragmentViewModelFactory getMainFragmentViewModelFactory();
 
     @Component.Builder
     interface Builder{
-        /*@BindsInstance
-        Builder context(Context context);*/
+        @BindsInstance
+        Builder context(Context context);
 
         @BindsInstance
         Builder response(IBackgroundOperationResponse response);

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -14,15 +15,14 @@ import it.bytener.carbuddy.interfaces.IBackgroundOperationResponse;
 import it.bytener.carbuddy.interfaces.IPaymentProvider;
 import it.bytener.carbuddy.room.entities.Payment;
 
+@Singleton
 public class MockPaymentProvider implements IPaymentProvider {
     List<Payment> payments;
     List<Payment> paymentsAvailable;
-    MutableLiveData<List<Payment>> mutablePayments;
     Random random = new Random();
 
     @Inject
     public MockPaymentProvider(){
-        mutablePayments = new MutableLiveData<>();
         paymentsAvailable = new ArrayList<>();
         payments = new ArrayList<>();
 
@@ -38,7 +38,6 @@ public class MockPaymentProvider implements IPaymentProvider {
         }
         payment.setPaymentDate(paymentDateMilli);
         paymentsAvailable.add(payment);
-        payments.add(payment);
 
         payment = new Payment();
         payment.setTipology("ASSICURAZIONE");
@@ -52,7 +51,6 @@ public class MockPaymentProvider implements IPaymentProvider {
         }
         payment.setPaymentDate(paymentDateMilli);
         paymentsAvailable.add(payment);
-        payments.add(payment);
 
         payment = new Payment();
         payment.setTipology("ASSICURAZIONE");
@@ -66,14 +64,12 @@ public class MockPaymentProvider implements IPaymentProvider {
         }
         payment.setPaymentDate(paymentDateMilli);
         paymentsAvailable.add(payment);
-        payments.add(payment);
-
     }
 
     @Override
     public LiveData<List<Payment>> getPayments(long vehicleId) {
         List<Payment> paymentFiltered = new ArrayList<>();
-        for (Payment payment : paymentsAvailable) {
+        for (Payment payment : payments) {
             if(payment.getVehicleId() == vehicleId){
                 paymentFiltered.add(payment);
             }
@@ -93,6 +89,5 @@ public class MockPaymentProvider implements IPaymentProvider {
             response.getResponse(rnd, payment);
         //}
         payments.add(payment);
-        mutablePayments.setValue(payments);
     }
 }
