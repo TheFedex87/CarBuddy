@@ -9,9 +9,11 @@ import dagger.Component;
 import it.bytener.carbuddy.ui.fragments.MainFragment;
 
 @Singleton
-@Component(modules =  { ApplicationModule.class } )
+@Component(modules = { ApplicationModule.class })
 public interface ApplicationComponent {
     void inject(MainFragment mainFragment);
+
+    Context getContext();
 
     @Component.Builder
     interface Builder {

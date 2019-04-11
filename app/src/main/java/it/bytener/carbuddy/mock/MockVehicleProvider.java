@@ -5,16 +5,15 @@ import java.util.List;
 import java.util.Random;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import it.bytener.carbuddy.dagger.scopes.PerFragment;
 import it.bytener.carbuddy.interfaces.IBackgroundOperationResponse;
 import it.bytener.carbuddy.interfaces.IVehicleProvider;
-import it.bytener.carbuddy.interfaces.models.IVehicle;
 import it.bytener.carbuddy.room.entities.Vehicle;
 
-@Singleton
+@PerFragment
 public class MockVehicleProvider implements IVehicleProvider {
     List<Vehicle> vehicles;
     List<Vehicle> vehiclesAvailable;

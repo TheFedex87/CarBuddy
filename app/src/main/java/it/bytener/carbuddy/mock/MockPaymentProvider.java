@@ -6,16 +6,15 @@ import java.util.List;
 import java.util.Random;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import it.bytener.carbuddy.dagger.MockedProviderModule;
+import it.bytener.carbuddy.dagger.scopes.PerFragment;
 import it.bytener.carbuddy.interfaces.IBackgroundOperationResponse;
 import it.bytener.carbuddy.interfaces.IPaymentProvider;
 import it.bytener.carbuddy.room.entities.Payment;
 
-@Singleton
+@PerFragment
 public class MockPaymentProvider implements IPaymentProvider {
     List<Payment> payments;
     List<Payment> paymentsAvailable;

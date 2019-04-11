@@ -25,6 +25,7 @@ import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.bytener.carbuddy.R;
+import it.bytener.carbuddy.application.CarBuddyApplication;
 import it.bytener.carbuddy.dagger.DaggerViewModelComponent;
 import it.bytener.carbuddy.dagger.ViewModelComponent;
 import it.bytener.carbuddy.interfaces.IBackgroundOperationResponse;
@@ -66,6 +67,8 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
 
     }
 
+    private final static String TAG = MainFragment.class.getSimpleName();
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -75,10 +78,22 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
 
         mainFragmentViewModelFactory = DaggerViewModelComponent
                 .builder()
-                .context(context)
+                .applicationComponent(CarBuddyApplication.appComponent())
                 .response(this)
                 .build()
                 .getMainFragmentViewModelFactory();
+
+        ViewModelComponent daggerViewModelComponent = DaggerViewModelComponent
+                .builder()
+                .applicationComponent(CarBuddyApplication.appComponent())
+                .response(this)
+                .build();
+
+        Log.d(TAG, "ViewModelComponent 1: " + daggerViewModelComponent.getMainFragmentViewModelFactory().toString());
+        Log.d(TAG, "ViewModelComponent 2: " + daggerViewModelComponent.getMainFragmentViewModelFactory().toString());
+
+        Log.d(TAG, "Context 1: " + CarBuddyApplication.appComponent().getContext().toString());
+        Log.d(TAG, "Context 2: " + CarBuddyApplication.appComponent().getContext().toString());
 
         setupViewModel();
     }
