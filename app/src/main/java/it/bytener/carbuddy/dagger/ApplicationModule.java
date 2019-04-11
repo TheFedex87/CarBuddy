@@ -25,9 +25,9 @@ public class ApplicationModule {
         return context;
     }*/
 
-
+    @Singleton
     @Provides
-    public AppDatabase provideDatabase(Context context){
+    public static AppDatabase provideDatabase(Context context){
         return AppDatabase.getInstance(context);
     }
 }

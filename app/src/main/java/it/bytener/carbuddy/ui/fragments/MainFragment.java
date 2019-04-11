@@ -83,18 +83,6 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
                 .build()
                 .getMainFragmentViewModelFactory();
 
-        ViewModelComponent daggerViewModelComponent = DaggerViewModelComponent
-                .builder()
-                .applicationComponent(CarBuddyApplication.appComponent())
-                .response(this)
-                .build();
-
-        Log.d(TAG, "ViewModelComponent 1: " + daggerViewModelComponent.getMainFragmentViewModelFactory().toString());
-        Log.d(TAG, "ViewModelComponent 2: " + daggerViewModelComponent.getMainFragmentViewModelFactory().toString());
-
-        Log.d(TAG, "Context 1: " + CarBuddyApplication.appComponent().getContext().toString());
-        Log.d(TAG, "Context 2: " + CarBuddyApplication.appComponent().getContext().toString());
-
         setupViewModel();
     }
 
