@@ -12,7 +12,7 @@ import it.bytener.carbuddy.ui.fragments.MainFragment;
 @Singleton
 @Component(modules = { ApplicationModule.class })
 public interface ApplicationComponent {
-    void inject(MainFragment mainFragment);
+    //void inject(MainFragment mainFragment);
 
     Context getContext();
     AppDatabase getAppDatabase();

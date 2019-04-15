@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -26,6 +28,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.bytener.carbuddy.R;
 import it.bytener.carbuddy.application.CarBuddyApplication;
+import it.bytener.carbuddy.dagger.DaggerUserInterfaceComponent;
 import it.bytener.carbuddy.dagger.DaggerViewModelComponent;
 import it.bytener.carbuddy.dagger.ViewModelComponent;
 import it.bytener.carbuddy.interfaces.IBackgroundOperationResponse;
@@ -42,14 +45,16 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
     private boolean firstLoadDone = false;
 
     private Context context;
-    private VehiclePagerAdapter vehiclePagerAdapter;
+    @Inject
+    public VehiclePagerAdapter vehiclePagerAdapter;
     private List<IVehicle> vehicleList;
 
     private ReminderAdapter reminderAdapter;
     private List<IReminder> reminderList;
 
-    private MainFragmentViewModel mainFragmentViewModel;
+    private ViewModelComponent viewModelComponent;
 
+    private MainFragmentViewModel mainFragmentViewModel;
     private MainFragmentViewModelFactory mainFragmentViewModelFactory;
 
     @BindView(R.id.button_add_vehicle)
@@ -76,12 +81,11 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
 
         //CarBuddyApplication.appComponent().inject(this);
 
-        mainFragmentViewModelFactory = DaggerViewModelComponent
+        viewModelComponent = DaggerViewModelComponent
                 .builder()
                 .applicationComponent(CarBuddyApplication.appComponent())
                 .response(this)
-                .build()
-                .getMainFragmentViewModelFactory();
+                .build();
 
         setupViewModel();
     }
@@ -93,7 +97,15 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
 
         ButterKnife.bind(this, rootView);
 
-        vehiclePagerAdapter = new VehiclePagerAdapter(context, vehicleList);
+        //vehiclePagerAdapter = new VehiclePagerAdapter(context, vehicleList);
+        if(vehicleList == null) vehicleList = new ArrayList<>();
+        DaggerUserInterfaceComponent
+                .builder()
+                .applicationComponent(CarBuddyApplication.appComponent())
+                .vehicleList(vehicleList)
+                .build()
+                .inject(this);
+
         vehiclesPager.setAdapter(vehiclePagerAdapter);
         vehiclesPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -134,6 +146,7 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
     }
 
     private void setupViewModel(){
+        mainFragmentViewModelFactory = viewModelComponent.getMainFragmentViewModelFactory();
         mainFragmentViewModel = ViewModelProviders.of(this, mainFragmentViewModelFactory).get(MainFragmentViewModel.class);
 
         mainFragmentViewModel.getVehicles().observe(this, vehicles -> {
