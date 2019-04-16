@@ -1,6 +1,7 @@
 package it.bytener.carbuddy.dagger;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import javax.inject.Singleton;
 
@@ -16,6 +17,7 @@ public interface ApplicationComponent {
 
     Context getContext();
     AppDatabase getAppDatabase();
+    SharedPreferences getSharedPreferences();
 
     @Component.Builder
     interface Builder {

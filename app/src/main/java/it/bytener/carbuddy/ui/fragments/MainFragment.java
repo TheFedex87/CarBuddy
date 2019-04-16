@@ -1,13 +1,17 @@
 package it.bytener.carbuddy.ui.fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -70,6 +74,12 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
     @BindView(R.id.next_reminders_recycler_view)
     RecyclerView nextRemindersRecyclerView;
 
+    //NavigationDrawer
+    @BindView(R.id.nav_view)
+    NavigationView navigationView;
+
+    private final SharedPreferences sharedPreferences = CarBuddyApplication.appComponent().getSharedPreferences();
+
     Random rnd = new Random();
 
     public MainFragment(){
@@ -124,6 +134,9 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
             @Override
             public void onPageSelected(int position) {
                 mainFragmentViewModel.setPaymentVehicleId(vehicleList.get(position).getId());
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt("vehicle_index", position);
+                editor.apply();
             }
 
             @Override
@@ -131,6 +144,17 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
 
             }
         });
+
+        if(sharedPreferences.contains("vehicle_index")){
+            vehiclesPager.post(new Runnable() {
+                @Override
+                public void run() {
+                    int vehicleIndex = sharedPreferences.getInt("vehicle_index", 0);
+                    vehiclesPager.setCurrentItem(vehicleIndex);
+                }
+            });
+        }
+
 
         //reminderAdapter = new ReminderAdapter(reminderList);
         nextRemindersRecyclerView.setAdapter(reminderAdapter);

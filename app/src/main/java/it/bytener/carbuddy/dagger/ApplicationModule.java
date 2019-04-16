@@ -1,6 +1,8 @@
 package it.bytener.carbuddy.dagger;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import javax.inject.Singleton;
 
@@ -29,5 +31,11 @@ public class ApplicationModule {
     @Provides
     public static AppDatabase provideDatabase(Context context){
         return AppDatabase.getInstance(context);
+    }
+
+    @Singleton
+    @Provides
+    public static SharedPreferences provideSharedPreferences(Context context){
+        return PreferenceManager.getDefaultSharedPreferences(context);
     }
 }
