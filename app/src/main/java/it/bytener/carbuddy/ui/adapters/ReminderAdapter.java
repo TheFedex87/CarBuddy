@@ -7,17 +7,22 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.bytener.carbuddy.R;
+import it.bytener.carbuddy.dagger.scopes.PerFragment;
 import it.bytener.carbuddy.interfaces.models.IReminder;
 
+@PerFragment
 public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ReminderViewHolder> {
 
     private List<IReminder> reminders;
 
+    @Inject
     public ReminderAdapter(List<IReminder> reminders){
         this.reminders = reminders;
     }

@@ -30,6 +30,8 @@ import it.bytener.carbuddy.R;
 import it.bytener.carbuddy.application.CarBuddyApplication;
 import it.bytener.carbuddy.dagger.DaggerUserInterfaceComponent;
 import it.bytener.carbuddy.dagger.DaggerViewModelComponent;
+import it.bytener.carbuddy.dagger.UserInterfaceComponent;
+import it.bytener.carbuddy.dagger.UserInterfaceModule;
 import it.bytener.carbuddy.dagger.ViewModelComponent;
 import it.bytener.carbuddy.interfaces.IBackgroundOperationResponse;
 import it.bytener.carbuddy.interfaces.models.IReminder;
@@ -49,10 +51,12 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
     public VehiclePagerAdapter vehiclePagerAdapter;
     private List<IVehicle> vehicleList;
 
-    private ReminderAdapter reminderAdapter;
+    @Inject
+    public ReminderAdapter reminderAdapter;
     private List<IReminder> reminderList;
 
     private ViewModelComponent viewModelComponent;
+    private UserInterfaceComponent userInterfaceComponent;
 
     private MainFragmentViewModel mainFragmentViewModel;
     private MainFragmentViewModelFactory mainFragmentViewModelFactory;
@@ -99,12 +103,16 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
 
         //vehiclePagerAdapter = new VehiclePagerAdapter(context, vehicleList);
         if(vehicleList == null) vehicleList = new ArrayList<>();
-        DaggerUserInterfaceComponent
+        if(reminderList == null) reminderList = new ArrayList<>();
+        userInterfaceComponent = DaggerUserInterfaceComponent
                 .builder()
                 .applicationComponent(CarBuddyApplication.appComponent())
+                .userInterfaceModule(new UserInterfaceModule(LinearLayoutManager.VERTICAL))
                 .vehicleList(vehicleList)
-                .build()
-                .inject(this);
+                .reminderList(reminderList)
+                .build();
+
+        userInterfaceComponent.inject(this);
 
         vehiclesPager.setAdapter(vehiclePagerAdapter);
         vehiclesPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -124,9 +132,9 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
             }
         });
 
-        reminderAdapter = new ReminderAdapter(reminderList);
+        //reminderAdapter = new ReminderAdapter(reminderList);
         nextRemindersRecyclerView.setAdapter(reminderAdapter);
-        nextRemindersRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+        nextRemindersRecyclerView.setLayoutManager(userInterfaceComponent.getLinearLayoutManager());
 
         addVehicleButton.setOnClickListener(v -> {
             Vehicle vehicle = new Vehicle();

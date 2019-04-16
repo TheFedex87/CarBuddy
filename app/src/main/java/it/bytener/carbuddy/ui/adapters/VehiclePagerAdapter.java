@@ -8,17 +8,22 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 import it.bytener.carbuddy.R;
+import it.bytener.carbuddy.dagger.scopes.PerFragment;
 import it.bytener.carbuddy.interfaces.models.IVehicle;
 import it.bytener.carbuddy.room.entities.Vehicle;
 
+@PerFragment
 public class VehiclePagerAdapter extends PagerAdapter {
     private List<IVehicle> vehicles;
     private Context context;
 
-    public VehiclePagerAdapter(Context context ,@NonNull List<IVehicle> vehicles){
+    @Inject
+    public VehiclePagerAdapter(Context context, List<IVehicle> vehicles){
         this.context = context;
         this.vehicles = vehicles;
     }
