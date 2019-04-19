@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -42,6 +43,7 @@ import it.bytener.carbuddy.interfaces.models.IReminder;
 import it.bytener.carbuddy.interfaces.models.IVehicle;
 import it.bytener.carbuddy.room.entities.Payment;
 import it.bytener.carbuddy.room.entities.Vehicle;
+import it.bytener.carbuddy.ui.NavigationDrawerHeaderViewHolder;
 import it.bytener.carbuddy.ui.adapters.ReminderAdapter;
 import it.bytener.carbuddy.ui.adapters.VehiclePagerAdapter;
 import it.bytener.carbuddy.ui.viewmodels.MainFragmentViewModel;
@@ -58,6 +60,9 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
     @Inject
     public ReminderAdapter reminderAdapter;
     private List<IReminder> reminderList;
+
+    @Inject
+    public NavigationDrawerHeaderViewHolder navigationDrawerHeaderViewHolder;
 
     private ViewModelComponent viewModelComponent;
     private UserInterfaceComponent userInterfaceComponent;
@@ -76,7 +81,9 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
 
     //NavigationDrawer
     @BindView(R.id.nav_view)
-    NavigationView navigationView;
+    NavigationView navigationDrawer;
+
+
 
     private final SharedPreferences sharedPreferences = CarBuddyApplication.appComponent().getSharedPreferences();
 
@@ -94,6 +101,7 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
         this.context = context;
 
         //CarBuddyApplication.appComponent().inject(this);
+
 
         viewModelComponent = DaggerViewModelComponent
                 .builder()
@@ -120,6 +128,7 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
                 .userInterfaceModule(new UserInterfaceModule(LinearLayoutManager.VERTICAL))
                 .vehicleList(vehicleList)
                 .reminderList(reminderList)
+                .headerView(navigationDrawer.getHeaderView(0))
                 .build();
 
         userInterfaceComponent.inject(this);
@@ -137,6 +146,9 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putInt("vehicle_index", position);
                 editor.apply();
+
+                navigationDrawerHeaderViewHolder.headerVehicleBrande.setText(String.valueOf(vehicleList.get(position).getBrand()));
+                navigationDrawerHeaderViewHolder.headerVehicleName.setText(String.valueOf(vehicleList.get(position).getModel()));
             }
 
             @Override
@@ -150,7 +162,12 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
                 @Override
                 public void run() {
                     int vehicleIndex = sharedPreferences.getInt("vehicle_index", 0);
-                    vehiclesPager.setCurrentItem(vehicleIndex);
+                    if(vehicleIndex < vehicleList.size()) {
+                        vehiclesPager.setCurrentItem(vehicleIndex);
+
+                        navigationDrawerHeaderViewHolder.headerVehicleBrande.setText(String.valueOf(vehicleList.get(vehicleIndex).getBrand()));
+                        navigationDrawerHeaderViewHolder.headerVehicleName.setText(String.valueOf(vehicleList.get(vehicleIndex).getModel()));
+                    }
                 }
             });
         }
@@ -191,6 +208,9 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
             if(vehicleList.size() > 0 && !firstLoadDone) {
                 mainFragmentViewModel.setPaymentVehicleId(vehicleList.get(0).getId());
                 firstLoadDone = true;
+
+                navigationDrawerHeaderViewHolder.headerVehicleBrande.setText(String.valueOf(vehicleList.get(0).getBrand()));
+                navigationDrawerHeaderViewHolder.headerVehicleName.setText(String.valueOf(vehicleList.get(0).getModel()));
             }
 
         });

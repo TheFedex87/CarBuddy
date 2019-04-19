@@ -11,7 +11,7 @@ import it.bytener.carbuddy.interfaces.IBackgroundOperationResponse;
 import it.bytener.carbuddy.ui.viewmodels.MainFragmentViewModelFactory;
 
 @PerFragment
-@Component( dependencies = ApplicationComponent.class, modules = { ProviderModule.class })
+@Component( dependencies = ApplicationComponent.class, modules = { MockedProviderModule.class })
 public interface ViewModelComponent {
     MainFragmentViewModelFactory getMainFragmentViewModelFactory();
 

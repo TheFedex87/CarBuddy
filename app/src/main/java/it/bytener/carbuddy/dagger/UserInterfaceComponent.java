@@ -1,5 +1,7 @@
 package it.bytener.carbuddy.dagger;
 
+import android.view.View;
+
 import java.util.List;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,6 +30,9 @@ public interface UserInterfaceComponent {
 
         @BindsInstance
         Builder reminderList(List<IReminder> reminderList);
+
+        @BindsInstance
+        Builder headerView(View headerView);
 
         UserInterfaceComponent build();
     }
