@@ -8,5 +8,11 @@
     <string name="action_settings">Settings</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="content_description_fab_add_operation">Add operation to current vehicle</string>
+
+    <string name="insurance_description">Assicurazione</string>
+    <string name="car_tax_description">Bollo</string>
+    <string name="maintenance_description">Tagliando</string>
+    <string name="tires_description">Gomme</string>
+    <string name="revision_description">Revisione</string>
 </resources>

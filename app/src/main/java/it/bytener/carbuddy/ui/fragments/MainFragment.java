@@ -2,16 +2,13 @@ package it.bytener.carbuddy.ui.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.media.Image;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -26,6 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -83,11 +81,12 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
     @BindView(R.id.nav_view)
     NavigationView navigationDrawer;
 
-
+    @BindView(R.id.add_operation_fab)
+    FloatingActionButton addPaymentFab;
 
     private final SharedPreferences sharedPreferences = CarBuddyApplication.appComponent().getSharedPreferences();
 
-    Random rnd = new Random();
+    private Random rnd = new Random();
 
     public MainFragment(){
 
@@ -189,6 +188,13 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
             payment.setDescription("Bollo");
             payment.setVehicleId(rnd.nextInt(5));
             mainFragmentViewModel.setPayment(payment);
+        });
+
+        addPaymentFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_addPaymentFragment);
+            }
         });
 
         return rootView;
