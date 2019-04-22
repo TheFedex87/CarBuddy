@@ -5,12 +5,10 @@ public interface IPayment extends IReminder {
     void setId(long id);
 
     //Tipologia del pagamento: BOLLO, ASSICURAZIONE, ALTRO..
-    String getTipology();
-    void setTipology(String tipology);
+    //String getTipology();
+    //void setTipology(String tipology);
 
-    //Numero di secondi dal 1970 che rappresentano la data di pagamento
-    long getPaymentDate();
-    void setPaymentDate(long paymentDate);
+
 
     String getNote();
     void setNote(String note);

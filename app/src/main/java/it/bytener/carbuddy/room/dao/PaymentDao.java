@@ -8,7 +8,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import it.bytener.carbuddy.room.entities.Payment;
 
-@Dao
+/*@Dao
 public interface PaymentDao {
     @Query("SELECT * FROM payment WHERE vehicleId = :vehicleId")
     LiveData<List<Payment>> paymentOfVehicle(long vehicleId);
@@ -18,4 +18,4 @@ public interface PaymentDao {
 
     @Insert
     long insertPayment(Payment vehicle);
-}
+}*/

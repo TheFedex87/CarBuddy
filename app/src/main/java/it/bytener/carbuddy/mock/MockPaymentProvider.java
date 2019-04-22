@@ -1,6 +1,6 @@
 package it.bytener.carbuddy.mock;
 
-import java.text.SimpleDateFormat;
+/*import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -89,4 +89,4 @@ public class MockPaymentProvider implements IPaymentProvider {
         //}
         payments.add(payment);
     }
-}
+}*/

@@ -1,5 +1,6 @@
 package it.bytener.carbuddy.room.entities;
 
+import androidx.room.DatabaseView;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
@@ -8,71 +9,18 @@ import it.bytener.carbuddy.interfaces.models.IPayment;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity(indices = { @Index(value = {"vehicleId"})},
-        foreignKeys = @ForeignKey(entity = Vehicle.class,
-            parentColumns = "id",
-            childColumns = "vehicleId",
-            onDelete = CASCADE))
-public class Payment implements IPayment {
-    @PrimaryKey(autoGenerate = true)
-    private long id;
-    private String tipology;
-    private String description;
-    private long paymentDate;
-    private String note;
-    private long vehicleId;
+//@DatabaseView("SELECT insurance.paymentDate, insurance.note, carTax.paymentDate, carTax.note WHERE insurance.vehicleId = {vehicleId} OR carTax.vehicleId = {vehicleId}")
+public interface Payment extends IPayment {
 
-    @Override
-    public long getId() {
-        return id;
-    }
-    @Override
-    public void setId(long id) {
-        this.id = id;
-    }
+    long getId();
+    void setId(long id);
 
-    @Override
-    public String getTipology() {
-        return tipology;
-    }
-    @Override
-    public void setTipology(String tipology) {
-        this.tipology = tipology;
-    }
+    long getPaymentDate();
+    void setPaymentDate(long paymentDate);
 
-    @Override
-    public String getDescription() {
-        return description;
-    }
-    @Override
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    String getNote();
+    void setNote(String note);
 
-    @Override
-    public long getPaymentDate() {
-        return paymentDate;
-    }
-    @Override
-    public void setPaymentDate(long paymentDate) {
-        this.paymentDate = paymentDate;
-    }
-
-    @Override
-    public String getNote() {
-        return note;
-    }
-    @Override
-    public void setNote(String note) {
-        this.note = note;
-    }
-
-    @Override
-    public long getVehicleId() {
-        return vehicleId;
-    }
-    @Override
-    public void setVehicleId(long vehicleId) {
-        this.vehicleId = vehicleId;
-    }
+    long getVehicleId();
+    void setVehicleId(long vehicleId);
 }

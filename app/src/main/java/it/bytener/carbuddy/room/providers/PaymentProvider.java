@@ -12,7 +12,7 @@ import it.bytener.carbuddy.interfaces.IPaymentProvider;
 import it.bytener.carbuddy.room.AppDatabase;
 import it.bytener.carbuddy.room.entities.Payment;
 
-@PerFragment
+/*@PerFragment
 public class PaymentProvider implements IPaymentProvider {
     private AppDatabase db;
 
@@ -26,10 +26,10 @@ public class PaymentProvider implements IPaymentProvider {
         return db.paymentDao().paymentOfVehicle(vehicleId);
     }
 
-    /*@Override
-    public LiveData<List<Payment>> getAllPayments(){
-        return db.paymentDao().allPayments();
-    }*/
+    //@Override
+    //public LiveData<List<Payment>> getAllPayments(){
+    //    return db.paymentDao().allPayments();
+    //}
 
     @Override
     public void insertPayment(Payment payment, IBackgroundOperationResponse response) {
@@ -41,4 +41,4 @@ public class PaymentProvider implements IPaymentProvider {
             }
         });
     }
-}
+}*/

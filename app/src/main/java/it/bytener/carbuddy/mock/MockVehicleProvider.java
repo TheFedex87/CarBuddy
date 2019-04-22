@@ -20,6 +20,8 @@ public class MockVehicleProvider implements IVehicleProvider {
     MutableLiveData<List<Vehicle>> mutableVehicles;
     Random random = new Random();
 
+    private int currentIndex = 0;
+
     @Inject
     public MockVehicleProvider(){
         mutableVehicles = new MutableLiveData<>();
@@ -29,17 +31,17 @@ public class MockVehicleProvider implements IVehicleProvider {
         Vehicle vehicle = new Vehicle();
         vehicle.setBrand("Mercedes");
         vehicle.setModel("Classe A");
-        vehicle.setId(0);
+        vehicle.setId(1);
         vehiclesAvailable.add(vehicle);
         vehicle = new Vehicle();
         vehicle.setBrand("Opel");
         vehicle.setModel("Astra");
-        vehicle.setId(1);
+        vehicle.setId(2);
         vehiclesAvailable.add(vehicle);
         vehicle = new Vehicle();
         vehicle.setBrand("BMW");
         vehicle.setModel("Serie 1");
-        vehicle.setId(2);
+        vehicle.setId(3);
         vehiclesAvailable.add(vehicle);
     }
 
@@ -50,13 +52,15 @@ public class MockVehicleProvider implements IVehicleProvider {
 
     @Override
     public void insertVehicle(Vehicle vehicle, IBackgroundOperationResponse response) {
-        //if(vehicle == null){
+        if(currentIndex < 3) {
+            //if(vehicle == null){
             int rnd = random.nextInt(vehiclesAvailable.size());
-            vehicle = vehiclesAvailable.get(rnd);
-            response.getResponse(rnd, vehicle);
-        //}
-        vehicles.add(vehicle);
-        mutableVehicles.setValue(vehicles);
-
+            vehicle = vehiclesAvailable.get(currentIndex);
+            response.getResponse(currentIndex, vehicle);
+            //}
+            vehicles.add(vehicle);
+            mutableVehicles.setValue(vehicles);
+            currentIndex++;
+        }
     }
 }

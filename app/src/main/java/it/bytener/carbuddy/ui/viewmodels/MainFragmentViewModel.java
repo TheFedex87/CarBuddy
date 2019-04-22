@@ -8,25 +8,33 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 import it.bytener.carbuddy.interfaces.IBackgroundOperationResponse;
+import it.bytener.carbuddy.interfaces.ICarTaxProvider;
+import it.bytener.carbuddy.interfaces.IInsuranceProvider;
 import it.bytener.carbuddy.interfaces.IPaymentProvider;
 import it.bytener.carbuddy.interfaces.IVehicleProvider;
+import it.bytener.carbuddy.room.entities.CarTax;
+import it.bytener.carbuddy.room.entities.Insurance;
 import it.bytener.carbuddy.room.entities.Payment;
 import it.bytener.carbuddy.room.entities.Vehicle;
 
 public class MainFragmentViewModel extends ViewModel {
     private IVehicleProvider vehicleProvider;
-    private IPaymentProvider paymentProvider;
+    private IInsuranceProvider insuranceProvider;
+    private ICarTaxProvider carTaxProvider;
     private IBackgroundOperationResponse response;
 
     private MutableLiveData<Long> vehicleIdQuery = new MutableLiveData<Long>();
-    private LiveData<List<Payment>> paymentOfVehicle;
+    private LiveData<List<Insurance>> insuranceOfVehicle;
+    private LiveData<List<CarTax>> carTaxOfVehicle;
 
-    public MainFragmentViewModel(IVehicleProvider vehicleProvider, IPaymentProvider paymentProvider, IBackgroundOperationResponse response){
+    public MainFragmentViewModel(IVehicleProvider vehicleProvider, IInsuranceProvider insuranceProvider, ICarTaxProvider carTaxProvider, IBackgroundOperationResponse response){
         this.vehicleProvider = vehicleProvider;
-        this.paymentProvider = paymentProvider;
+        this.insuranceProvider = insuranceProvider;
+        this.carTaxProvider = carTaxProvider;
         this.response = response;
 
-        paymentOfVehicle = Transformations.switchMap(vehicleIdQuery, id -> paymentProvider.getPayments(id));
+        insuranceOfVehicle = Transformations.switchMap(vehicleIdQuery, id -> insuranceProvider.getInsurances(id));
+        carTaxOfVehicle = Transformations.switchMap(vehicleIdQuery, id -> carTaxProvider.getCarTaxes(id));
     }
 
     public LiveData<List<Vehicle>> getVehicles() {
@@ -36,10 +44,13 @@ public class MainFragmentViewModel extends ViewModel {
         vehicleProvider.insertVehicle(vehicle, response);
     }
 
-
-    public LiveData<List<Payment>> getPayments() { return paymentOfVehicle; }
-    public void setPaymentVehicleId(long vehicleId){
+    public void setVehicleId(long vehicleId){
         vehicleIdQuery.setValue(vehicleId);
     }
-    public void setPayment(Payment payment) { paymentProvider.insertPayment(payment, response);}
+
+    public LiveData<List<Insurance>> getInsurances() { return insuranceOfVehicle; }
+    public void setInsurance(Insurance insurance) { insuranceProvider.insertInsurance(insurance, response);}
+
+    public LiveData<List<CarTax>> getCarTaxes() { return carTaxOfVehicle; }
+    public void setCarTax(CarTax carTax) { carTaxProvider.insertCarTax(carTax, response);}
 }

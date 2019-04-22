@@ -39,6 +39,8 @@ import it.bytener.carbuddy.dagger.ViewModelComponent;
 import it.bytener.carbuddy.interfaces.IBackgroundOperationResponse;
 import it.bytener.carbuddy.interfaces.models.IReminder;
 import it.bytener.carbuddy.interfaces.models.IVehicle;
+import it.bytener.carbuddy.room.entities.CarTax;
+import it.bytener.carbuddy.room.entities.Insurance;
 import it.bytener.carbuddy.room.entities.Payment;
 import it.bytener.carbuddy.room.entities.Vehicle;
 import it.bytener.carbuddy.ui.NavigationDrawerHeaderViewHolder;
@@ -58,6 +60,9 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
     @Inject
     public ReminderAdapter reminderAdapter;
     private List<IReminder> reminderList;
+
+    private List<Insurance> insuranceList;
+    private List<CarTax> carTaxList;
 
     @Inject
     public NavigationDrawerHeaderViewHolder navigationDrawerHeaderViewHolder;
@@ -141,7 +146,7 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
 
             @Override
             public void onPageSelected(int position) {
-                mainFragmentViewModel.setPaymentVehicleId(vehicleList.get(position).getId());
+                mainFragmentViewModel.setVehicleId(vehicleList.get(position).getId());
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putInt("vehicle_index", position);
                 editor.apply();
@@ -184,10 +189,16 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
         });
 
         addPaymentButton.setOnClickListener(v -> {
-            Payment payment = new Payment();
+            if(sharedPreferences.contains("vehicle_index")) {
+                long vehicleIndex = vehicleList.get(sharedPreferences.getInt("vehicle_index", 0)).getId();
+                CarTax carTax = new CarTax();
+                carTax.setVehicleId(vehicleIndex);
+                mainFragmentViewModel.setCarTax(carTax);
+            }
+            /*Payment payment = new Payment();
             payment.setDescription("Bollo");
             payment.setVehicleId(rnd.nextInt(5));
-            mainFragmentViewModel.setPayment(payment);
+            mainFragmentViewModel.setPayment(payment);*/
         });
 
         addPaymentFab.setOnClickListener(new View.OnClickListener() {
@@ -212,7 +223,7 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
             vehicleList = iVehicles;
 
             if(vehicleList.size() > 0 && !firstLoadDone) {
-                mainFragmentViewModel.setPaymentVehicleId(vehicleList.get(0).getId());
+                mainFragmentViewModel.setVehicleId(vehicleList.get(0).getId());
                 firstLoadDone = true;
 
                 navigationDrawerHeaderViewHolder.headerVehicleBrande.setText(String.valueOf(vehicleList.get(0).getBrand()));
@@ -221,13 +232,27 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
 
         });
 
-        mainFragmentViewModel.getPayments().observe(this, new Observer<List<Payment>>() {
+        /*mainFragmentViewModel.getPayments().observe(this, new Observer<List<Payment>>() {
             @Override
             public void onChanged(List<Payment> payments) {
                 List<IReminder> iPayments = new ArrayList<IReminder>(payments);
                 if(reminderAdapter != null){
                     reminderAdapter.swapReminders(iPayments);
                 }
+            }
+        });*/
+        mainFragmentViewModel.getCarTaxes().observe(this, new Observer<List<CarTax>>() {
+            @Override
+            public void onChanged(List<CarTax> carTaxes) {
+                carTaxList = carTaxes;
+                regenerateReminderList();
+            }
+        });
+        mainFragmentViewModel.getInsurances().observe(this, new Observer<List<Insurance>>() {
+            @Override
+            public void onChanged(List<Insurance> insurances) {
+                insuranceList = insurances;
+                regenerateReminderList();
             }
         });
 
@@ -236,5 +261,14 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
     @Override
     public void getResponse(long r, Object sender) {
         Snackbar.make(getActivity().findViewById(R.id.main_layout), String.valueOf(r), Snackbar.LENGTH_LONG).show();
+    }
+
+    private void regenerateReminderList(){
+        reminderList = new ArrayList<>();
+        if(insuranceList != null) reminderList.addAll(insuranceList);
+        if(carTaxList != null) reminderList.addAll(carTaxList);
+        if(reminderAdapter != null){
+            reminderAdapter.swapReminders(reminderList);
+        }
     }
 }
