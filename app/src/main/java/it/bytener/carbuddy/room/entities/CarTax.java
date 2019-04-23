@@ -14,8 +14,8 @@ import static androidx.room.ForeignKey.CASCADE;
                 parentColumns = "id",
                 childColumns = "vehicleId",
                 onDelete = CASCADE))
-public class CarTax implements Payment {
-    @PrimaryKey
+public class CarTax implements IPayment {
+    @PrimaryKey(autoGenerate = true)
     private long id;
     private long PaymentDate;
     private String note;
@@ -58,5 +58,5 @@ public class CarTax implements Payment {
     }
 
     @Override
-    public String getDescription(){ return "Assicurazione"; }
+    public String getDescription(){ return "Bollo"; }
 }

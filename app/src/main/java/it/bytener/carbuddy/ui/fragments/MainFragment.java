@@ -23,6 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -192,6 +193,7 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
             if(sharedPreferences.contains("vehicle_index")) {
                 long vehicleIndex = vehicleList.get(sharedPreferences.getInt("vehicle_index", 0)).getId();
                 CarTax carTax = new CarTax();
+                carTax.setNote("Nota pagamentooo");
                 carTax.setVehicleId(vehicleIndex);
                 mainFragmentViewModel.setCarTax(carTax);
             }
@@ -204,7 +206,10 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
         addPaymentFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_addPaymentFragment);
+                int vehicleIndex = sharedPreferences.getInt("vehicle_index", 0);
+                MainFragmentDirections.ActionMainFragmentToAddPaymentFragment action = MainFragmentDirections.actionMainFragmentToAddPaymentFragment();
+                action.setVehicleId(vehicleIndex);
+                Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_testFragment);
             }
         });
 

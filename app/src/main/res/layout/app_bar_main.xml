@@ -24,11 +24,32 @@
             app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             >
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/vehicles_photo_pager"
+                    android:layout_width="@dimen/match_parent"
+                    android:layout_height="@dimen/vehicle_photo_height"></androidx.viewpager.widget.ViewPager>
 
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/vehicles_photo_pager"
-                android:layout_width="@dimen/match_parent"
-                android:layout_height="@dimen/vehicle_photo_height"></androidx.viewpager.widget.ViewPager>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+                    <Button
+                        android:id="@+id/button_add_vehicle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Add vehicle" />
+
+                    <Button
+                        android:id="@+id/button_add_payment"
+                        android:layout_width="@dimen/match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Add payment" />
+                </LinearLayout>
+            </FrameLayout>
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -38,23 +59,7 @@
                 app:contentInsetStart="@dimen/detail_content_intent_start"
                 app:layout_collapseMode="pin" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="vertical">
-                <Button
-                    android:id="@+id/button_add_vehicle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Add vehicle" />
 
-                <Button
-                    android:id="@+id/button_add_payment"
-                    android:layout_width="@dimen/match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Add payment" />
-            </LinearLayout>
 
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>

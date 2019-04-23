@@ -5,6 +5,8 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import it.bytener.carbuddy.room.dao.CarTaxDao;
+import it.bytener.carbuddy.room.dao.InsuranceDao;
 import it.bytener.carbuddy.room.dao.VehicleDao;
 import it.bytener.carbuddy.room.entities.CarTax;
 import it.bytener.carbuddy.room.entities.Insurance;
@@ -32,5 +34,6 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     public abstract VehicleDao vehicleDao();
-
+    public abstract CarTaxDao carTaxDao();
+    public abstract InsuranceDao insuranceDao();
 }

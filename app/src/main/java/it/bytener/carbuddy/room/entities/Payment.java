@@ -1,6 +1,5 @@
 package it.bytener.carbuddy.room.entities;
 
-import androidx.room.DatabaseView;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
@@ -12,7 +11,7 @@ import static androidx.room.ForeignKey.CASCADE;
 //@DatabaseView("SELECT insurance.paymentDate, insurance.note, carTax.paymentDate, carTax.note WHERE insurance.vehicleId = {vehicleId} OR carTax.vehicleId = {vehicleId}")
 public interface Payment extends IPayment {
 
-    long getId();
+    /*long getId();
     void setId(long id);
 
     long getPaymentDate();
@@ -22,5 +21,5 @@ public interface Payment extends IPayment {
     void setNote(String note);
 
     long getVehicleId();
-    void setVehicleId(long vehicleId);
+    void setVehicleId(long vehicleId);*/
 }

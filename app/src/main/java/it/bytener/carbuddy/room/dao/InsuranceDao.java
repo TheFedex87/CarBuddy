@@ -7,15 +7,16 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 import it.bytener.carbuddy.room.entities.CarTax;
+import it.bytener.carbuddy.room.entities.Insurance;
 
 @Dao
 public interface InsuranceDao {
-    @Query("SELECT * FROM cartax")
-    LiveData<List<CarTax>> getCarTaxes();
+    @Query("SELECT * FROM insurance")
+    LiveData<List<Insurance>> getInsurances();
 
-    @Query("SELECT * FROM cartax WHERE cartax.vehicleId = :vehicleId")
-    LiveData<List<CarTax>> getVehicleCarTaxes(long vehicleId);
+    @Query("SELECT * FROM insurance WHERE vehicleId = :vehicleId")
+    LiveData<List<Insurance>> getVehicleInsurances(long vehicleId);
 
     @Insert
-    long insertCarTax(CarTax carTax);
+    long insertInsurance(Insurance insurance);
 }

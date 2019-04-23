@@ -4,6 +4,7 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+import it.bytener.carbuddy.interfaces.models.IPayment;
 
 import static androidx.room.ForeignKey.CASCADE;
 
@@ -12,8 +13,8 @@ import static androidx.room.ForeignKey.CASCADE;
                 parentColumns = "id",
                 childColumns = "vehicleId",
                 onDelete = CASCADE))
-public class Insurance implements Payment {
-    @PrimaryKey
+public class Insurance implements IPayment {
+    @PrimaryKey(autoGenerate = true)
     private long id;
     private long PaymentDate;
     private String note;
