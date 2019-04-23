@@ -65,7 +65,7 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
     private List<Insurance> insuranceList;
     private List<CarTax> carTaxList;
 
-    @Inject
+    //@Inject
     public NavigationDrawerHeaderViewHolder navigationDrawerHeaderViewHolder;
 
     private ViewModelComponent viewModelComponent;
@@ -84,8 +84,8 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
     RecyclerView nextRemindersRecyclerView;
 
     //NavigationDrawer
-    @BindView(R.id.nav_view)
-    NavigationView navigationDrawer;
+    //@BindView(R.id.nav_view)
+    //NavigationView navigationDrawer;
 
     @BindView(R.id.add_operation_fab)
     FloatingActionButton addPaymentFab;
@@ -133,7 +133,7 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
                 .userInterfaceModule(new UserInterfaceModule(LinearLayoutManager.VERTICAL))
                 .vehicleList(vehicleList)
                 .reminderList(reminderList)
-                .headerView(navigationDrawer.getHeaderView(0))
+                //.headerView(navigationDrawer.getHeaderView(0))
                 .build();
 
         userInterfaceComponent.inject(this);
@@ -152,8 +152,8 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
                 editor.putInt("vehicle_index", position);
                 editor.apply();
 
-                navigationDrawerHeaderViewHolder.headerVehicleBrande.setText(String.valueOf(vehicleList.get(position).getBrand()));
-                navigationDrawerHeaderViewHolder.headerVehicleName.setText(String.valueOf(vehicleList.get(position).getModel()));
+                //navigationDrawerHeaderViewHolder.headerVehicleBrande.setText(String.valueOf(vehicleList.get(position).getBrand()));
+                //navigationDrawerHeaderViewHolder.headerVehicleName.setText(String.valueOf(vehicleList.get(position).getModel()));
             }
 
             @Override
@@ -170,8 +170,8 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
                     if(vehicleIndex < vehicleList.size()) {
                         vehiclesPager.setCurrentItem(vehicleIndex);
 
-                        navigationDrawerHeaderViewHolder.headerVehicleBrande.setText(String.valueOf(vehicleList.get(vehicleIndex).getBrand()));
-                        navigationDrawerHeaderViewHolder.headerVehicleName.setText(String.valueOf(vehicleList.get(vehicleIndex).getModel()));
+                        //navigationDrawerHeaderViewHolder.headerVehicleBrande.setText(String.valueOf(vehicleList.get(vehicleIndex).getBrand()));
+                        //navigationDrawerHeaderViewHolder.headerVehicleName.setText(String.valueOf(vehicleList.get(vehicleIndex).getModel()));
                     }
                 }
             });
@@ -231,8 +231,8 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
                 mainFragmentViewModel.setVehicleId(vehicleList.get(0).getId());
                 firstLoadDone = true;
 
-                navigationDrawerHeaderViewHolder.headerVehicleBrande.setText(String.valueOf(vehicleList.get(0).getBrand()));
-                navigationDrawerHeaderViewHolder.headerVehicleName.setText(String.valueOf(vehicleList.get(0).getModel()));
+                //navigationDrawerHeaderViewHolder.headerVehicleBrande.setText(String.valueOf(vehicleList.get(0).getBrand()));
+                //navigationDrawerHeaderViewHolder.headerVehicleName.setText(String.valueOf(vehicleList.get(0).getModel()));
             }
 
         });
@@ -265,7 +265,7 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
 
     @Override
     public void getResponse(long r, Object sender) {
-        Snackbar.make(getActivity().findViewById(R.id.main_layout), String.valueOf(r), Snackbar.LENGTH_LONG).show();
+        Snackbar.make(getActivity().findViewById(R.id.drawer_layout), String.valueOf(r), Snackbar.LENGTH_LONG).show();
     }
 
     private void regenerateReminderList(){
