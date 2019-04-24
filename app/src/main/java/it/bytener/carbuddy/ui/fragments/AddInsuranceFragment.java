@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
@@ -17,8 +17,10 @@ import androidx.fragment.app.Fragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.bytener.carbuddy.R;
+import it.bytener.carbuddy.interfaces.IBackgroundOperationResponse;
+import it.bytener.carbuddy.interfaces.IOperationSaver;
 
-public class AddInsuranceFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
+public class AddInsuranceFragment extends Fragment implements DatePickerDialog.OnDateSetListener, IOperationSaver {
     @BindView(R.id.insurance_payment_date)
     TextInputEditText paymentDate;
 
@@ -71,5 +73,10 @@ public class AddInsuranceFragment extends Fragment implements DatePickerDialog.O
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         paymentDate.setText(String.valueOf(dayOfMonth + "/" + monthOfYear + "/" + year));
+    }
+
+    @Override
+    public void saveOperation(IBackgroundOperationResponse response) {
+        Snackbar.make(getActivity().findViewById(R.id.drawer_layout), "Saving insurance", Snackbar.LENGTH_LONG).show();
     }
 }

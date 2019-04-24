@@ -31,8 +31,8 @@ public interface UserInterfaceComponent {
         @BindsInstance
         Builder reminderList(List<IReminder> reminderList);
 
-        //@BindsInstance
-        //Builder headerView(View headerView);
+        @BindsInstance
+        Builder headerView(View headerView);
 
         UserInterfaceComponent build();
     }

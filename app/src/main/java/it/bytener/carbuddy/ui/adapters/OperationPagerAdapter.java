@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import it.bytener.carbuddy.interfaces.IBackgroundOperationResponse;
+import it.bytener.carbuddy.interfaces.IOperationSaver;
 import it.bytener.carbuddy.ui.fragments.AddCarTaxFragment;
 import it.bytener.carbuddy.ui.fragments.AddInsuranceFragment;
 import it.bytener.carbuddy.ui.fragments.AddMaintenanceFragment;
@@ -15,12 +17,12 @@ import it.bytener.carbuddy.ui.fragments.AddTireFragment;
 
 public class OperationPagerAdapter extends FragmentPagerAdapter {
 
-    private Fragment[] fragments;
+    private IOperationSaver[] fragments;
     private Context context;
 
     public OperationPagerAdapter(FragmentManager fragmentManager, Context context){
         super(fragmentManager);
-        fragments = new Fragment[5];
+        fragments = new IOperationSaver[5];
         this.context = context;
     }
 
@@ -28,7 +30,7 @@ public class OperationPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         Fragment fragment = (Fragment)super.instantiateItem(container, position);
-        fragments[position] = fragment;
+        fragments[position] = (IOperationSaver)fragment;
         return fragment;
     }
 
@@ -59,5 +61,9 @@ public class OperationPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return 5;
+    }
+
+    public void saveCurrentOperation(IBackgroundOperationResponse response, int position){
+        fragments[position].saveOperation(response);
     }
 }

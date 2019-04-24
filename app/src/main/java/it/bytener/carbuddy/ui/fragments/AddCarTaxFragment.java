@@ -5,12 +5,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import it.bytener.carbuddy.R;
+import it.bytener.carbuddy.interfaces.IBackgroundOperationResponse;
+import it.bytener.carbuddy.interfaces.IOperationSaver;
 
-public class AddCarTaxFragment extends Fragment {
+public class AddCarTaxFragment extends Fragment implements IOperationSaver {
 
     public AddCarTaxFragment(){
 
@@ -21,5 +25,10 @@ public class AddCarTaxFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_car_tax, container, false);
         return view;
+    }
+
+    @Override
+    public void saveOperation(IBackgroundOperationResponse response) {
+        Snackbar.make(getActivity().findViewById(R.id.drawer_layout), "Saving car tax", Snackbar.LENGTH_LONG).show();
     }
 }

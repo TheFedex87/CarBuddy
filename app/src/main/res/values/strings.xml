@@ -14,6 +14,8 @@
     <string name="adding_insurance_description">Nuova istanza Assicurazione</string>
     <string name="insurance_cost_hint">Costo polizza</string>
     <string name="insurance_payment_date_hint">Data rinnovo polizza</string>
+    <string name="insurance_company_name_hint">Compagnia assicurativa</string>
+    <string name="insurance_note_hint">Note</string>
 
     <string name="car_tax_description">Bollo</string>
     <string name="maintenance_description">Tagliando</string>

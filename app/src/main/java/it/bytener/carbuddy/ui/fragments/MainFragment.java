@@ -20,6 +20,7 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -65,7 +66,7 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
     private List<Insurance> insuranceList;
     private List<CarTax> carTaxList;
 
-    //@Inject
+    @Inject
     public NavigationDrawerHeaderViewHolder navigationDrawerHeaderViewHolder;
 
     private ViewModelComponent viewModelComponent;
@@ -133,7 +134,7 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
                 .userInterfaceModule(new UserInterfaceModule(LinearLayoutManager.VERTICAL))
                 .vehicleList(vehicleList)
                 .reminderList(reminderList)
-                //.headerView(navigationDrawer.getHeaderView(0))
+                .headerView(((NavigationView)(getActivity().findViewById(R.id.nav_view))).getHeaderView(0))
                 .build();
 
         userInterfaceComponent.inject(this);
@@ -152,8 +153,7 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
                 editor.putInt("vehicle_index", position);
                 editor.apply();
 
-                //navigationDrawerHeaderViewHolder.headerVehicleBrande.setText(String.valueOf(vehicleList.get(position).getBrand()));
-                //navigationDrawerHeaderViewHolder.headerVehicleName.setText(String.valueOf(vehicleList.get(position).getModel()));
+                bindNavigationViewVehicle(vehicleList.get(position));
             }
 
             @Override
@@ -170,8 +170,7 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
                     if(vehicleIndex < vehicleList.size()) {
                         vehiclesPager.setCurrentItem(vehicleIndex);
 
-                        //navigationDrawerHeaderViewHolder.headerVehicleBrande.setText(String.valueOf(vehicleList.get(vehicleIndex).getBrand()));
-                        //navigationDrawerHeaderViewHolder.headerVehicleName.setText(String.valueOf(vehicleList.get(vehicleIndex).getModel()));
+                        bindNavigationViewVehicle(vehicleList.get(vehicleIndex));
                     }
                 }
             });
@@ -209,7 +208,7 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
                 int vehicleIndex = sharedPreferences.getInt("vehicle_index", 0);
                 MainFragmentDirections.ActionMainFragmentToAddPaymentFragment action = MainFragmentDirections.actionMainFragmentToAddPaymentFragment();
                 action.setVehicleId(vehicleIndex);
-                Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_testFragment);
+                Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_addPaymentFragment);
             }
         });
 
@@ -231,8 +230,7 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
                 mainFragmentViewModel.setVehicleId(vehicleList.get(0).getId());
                 firstLoadDone = true;
 
-                //navigationDrawerHeaderViewHolder.headerVehicleBrande.setText(String.valueOf(vehicleList.get(0).getBrand()));
-                //navigationDrawerHeaderViewHolder.headerVehicleName.setText(String.valueOf(vehicleList.get(0).getModel()));
+                bindNavigationViewVehicle(vehicleList.get(0));
             }
 
         });
@@ -275,5 +273,10 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
         if(reminderAdapter != null){
             reminderAdapter.swapReminders(reminderList);
         }
+    }
+
+    private void bindNavigationViewVehicle(IVehicle vehicle){
+        navigationDrawerHeaderViewHolder.headerVehicleBrande.setText(String.valueOf(vehicle.getBrand()));
+        navigationDrawerHeaderViewHolder.headerVehicleName.setText(String.valueOf(vehicle.getModel()));
     }
 }
