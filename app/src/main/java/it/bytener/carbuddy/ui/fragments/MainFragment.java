@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -20,6 +21,8 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -83,6 +86,10 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
     ViewPager vehiclesPager;
     @BindView(R.id.next_reminders_recycler_view)
     RecyclerView nextRemindersRecyclerView;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.toolbar_container)
+    CollapsingToolbarLayout collapsingToolbarLayout;
 
     //NavigationDrawer
     //@BindView(R.id.nav_view)
@@ -124,6 +131,8 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         ButterKnife.bind(this, rootView);
+
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
         //vehiclePagerAdapter = new VehiclePagerAdapter(context, vehicleList);
         if(vehicleList == null) vehicleList = new ArrayList<>();
@@ -171,6 +180,7 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
                         vehiclesPager.setCurrentItem(vehicleIndex);
 
                         bindNavigationViewVehicle(vehicleList.get(vehicleIndex));
+
                     }
                 }
             });
@@ -207,8 +217,8 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
             public void onClick(View v) {
                 int vehicleIndex = sharedPreferences.getInt("vehicle_index", 0);
                 MainFragmentDirections.ActionMainFragmentToAddPaymentFragment action = MainFragmentDirections.actionMainFragmentToAddPaymentFragment();
-                action.setVehicleId(vehicleIndex);
-                Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_addPaymentFragment);
+                action.setVehicleId(vehicleList.get(vehicleIndex).getId());
+                Navigation.findNavController(v).navigate(action);
             }
         });
 
@@ -278,5 +288,7 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
     private void bindNavigationViewVehicle(IVehicle vehicle){
         navigationDrawerHeaderViewHolder.headerVehicleBrande.setText(String.valueOf(vehicle.getBrand()));
         navigationDrawerHeaderViewHolder.headerVehicleName.setText(String.valueOf(vehicle.getModel()));
+
+        collapsingToolbarLayout.setTitle(vehicle.getBrand() + " " + vehicle.getModel());
     }
 }

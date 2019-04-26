@@ -7,7 +7,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import it.bytener.carbuddy.dagger.ViewModelComponent;
 import it.bytener.carbuddy.interfaces.IBackgroundOperationResponse;
+import it.bytener.carbuddy.interfaces.ICarTaxProvider;
+import it.bytener.carbuddy.interfaces.IInsuranceProvider;
 import it.bytener.carbuddy.interfaces.IOperationSaver;
 import it.bytener.carbuddy.ui.fragments.AddCarTaxFragment;
 import it.bytener.carbuddy.ui.fragments.AddInsuranceFragment;
@@ -63,7 +66,7 @@ public class OperationPagerAdapter extends FragmentPagerAdapter {
         return 5;
     }
 
-    public void saveCurrentOperation(IBackgroundOperationResponse response, int position){
-        fragments[position].saveOperation(response);
+    public void saveCurrentOperation(int position, long vehicleId, ViewModelComponent viewModelComponent){
+        fragments[position].saveOperation(viewModelComponent, vehicleId);
     }
 }

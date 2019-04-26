@@ -21,6 +21,7 @@ public class CarTax implements IPayment {
     private String note;
     private int sanction;
     private long vehicleId;
+    private long expirationDate;
 
     public long getId() {
         return id;
@@ -56,6 +57,9 @@ public class CarTax implements IPayment {
     public void setVehicleId(long vehicleId) {
         this.vehicleId = vehicleId;
     }
+
+    public long getExpirationDate(){ return expirationDate; }
+    public void setExpirationDate(long expirationDate) { this.expirationDate = expirationDate; }
 
     @Override
     public String getDescription(){ return "Bollo"; }

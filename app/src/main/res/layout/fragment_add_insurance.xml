@@ -48,10 +48,41 @@
         android:layout_marginRight="8dp"
         android:hint="@string/insurance_payment_date_hint"
         android:inputType="date"
-        android:editable="false"
+        android:focusable="false"
+        android:clickable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/insurance_cost" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/insurance_expiration_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:hint="@string/insurance_expiration_date_hint"
+        android:inputType="date"
+        android:focusable="false"
+        android:clickable="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/insurance_payment_date" />
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/set_alarm_insurance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="@string/insurance_expiration_alarm"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/insurance_expiration_date"/>
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/insurance_company_name"
@@ -66,7 +97,7 @@
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/insurance_payment_date" />
+        app:layout_constraintTop_toBottomOf="@+id/set_alarm_insurance" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/insurance_note"

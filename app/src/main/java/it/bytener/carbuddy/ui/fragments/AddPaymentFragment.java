@@ -17,6 +17,8 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.util.Calendar;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,12 +30,16 @@ import butterknife.ButterKnife;
 import dagger.BindsInstance;
 import it.bytener.carbuddy.R;
 import it.bytener.carbuddy.application.CarBuddyApplication;
+import it.bytener.carbuddy.dagger.DaggerApplicationComponent;
 import it.bytener.carbuddy.dagger.DaggerViewModelComponent;
 import it.bytener.carbuddy.dagger.ViewModelComponent;
 import it.bytener.carbuddy.interfaces.IBackgroundOperationResponse;
+import it.bytener.carbuddy.interfaces.ICarTaxProvider;
+import it.bytener.carbuddy.interfaces.IInsuranceProvider;
 import it.bytener.carbuddy.room.entities.Insurance;
 import it.bytener.carbuddy.room.entities.Vehicle;
 import it.bytener.carbuddy.ui.adapters.OperationPagerAdapter;
+import it.bytener.carbuddy.ui.viewmodels.AddOperationViewModelFactory;
 
 public class AddPaymentFragment extends Fragment implements IBackgroundOperationResponse {
     private Context context;
@@ -49,6 +55,13 @@ public class AddPaymentFragment extends Fragment implements IBackgroundOperation
     ViewPager addOperationPager;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+    @Inject
+    IInsuranceProvider insuranceProvider;
+    @Inject
+    ICarTaxProvider carTaxProvider;
+
+    private AddOperationViewModelFactory operationViewModelFactory;
 
 
     public AddPaymentFragment(){
@@ -87,7 +100,7 @@ public class AddPaymentFragment extends Fragment implements IBackgroundOperation
         switch (item.getItemId()){
             case(R.id.action_save):
 
-                operationPagerAdapter.saveCurrentOperation(this, addOperationPager.getCurrentItem());
+                operationPagerAdapter.saveCurrentOperation(addOperationPager.getCurrentItem(), vehicleId, viewModelComponent);
 
                 break;
         }
@@ -100,6 +113,14 @@ public class AddPaymentFragment extends Fragment implements IBackgroundOperation
         View rootView = inflater.inflate(R.layout.fragment_add_operation, container, false);
 
         ButterKnife.bind(this, rootView);
+
+        viewModelComponent = DaggerViewModelComponent
+                .builder()
+                .applicationComponent(CarBuddyApplication.appComponent())
+                .response(this)
+                .build();
+        operationViewModelFactory = viewModelComponent.getAddPaymentViewModelFactory();
+        viewModelComponent.inject(this);
 
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
@@ -134,6 +155,8 @@ public class AddPaymentFragment extends Fragment implements IBackgroundOperation
 
     @Override
     public void getResponse(long r, Object sender) {
-
+        if(sender instanceof Insurance){
+            Snackbar.make(getActivity().findViewById(R.id.drawer_layout), getActivity().getResources().getString(R.string.insurance_saved), Snackbar.LENGTH_LONG).show();
+        }
     }
 }

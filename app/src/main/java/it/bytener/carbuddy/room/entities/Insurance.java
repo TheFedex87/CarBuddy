@@ -16,10 +16,11 @@ import static androidx.room.ForeignKey.CASCADE;
 public class Insurance implements IPayment {
     @PrimaryKey(autoGenerate = true)
     private long id;
-    private long PaymentDate;
+    private long paymentDate;
     private String note;
     private String insuranceCompanyName;
     private long vehicleId;
+    private long expirationDate;
 
     public long getId() {
         return id;
@@ -29,10 +30,10 @@ public class Insurance implements IPayment {
     }
 
     public long getPaymentDate() {
-        return PaymentDate;
+        return paymentDate;
     }
     public void setPaymentDate(long paymentDate) {
-        PaymentDate = paymentDate;
+        this.paymentDate = paymentDate;
     }
 
     public String getNote() {
@@ -56,5 +57,8 @@ public class Insurance implements IPayment {
         this.vehicleId = vechicleId;
     }
 
-    public String getDescription() { return "BOLLO"; }
+    public long getExpirationDate(){ return expirationDate; }
+    public void setExpirationDate(long expirationDate) { this.expirationDate = expirationDate; }
+
+    public String getDescription() { return "ASSICURAZIONE"; }
 }

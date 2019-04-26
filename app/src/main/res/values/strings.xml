@@ -14,6 +14,8 @@
     <string name="adding_insurance_description">Nuova istanza Assicurazione</string>
     <string name="insurance_cost_hint">Costo polizza</string>
     <string name="insurance_payment_date_hint">Data rinnovo polizza</string>
+    <string name="insurance_expiration_date_hint">Data scadenza polizza</string>
+    <string name="insurance_expiration_alarm">Imposta promeria scadenza pagamento</string>
     <string name="insurance_company_name_hint">Compagnia assicurativa</string>
     <string name="insurance_note_hint">Note</string>
 
@@ -21,4 +23,11 @@
     <string name="maintenance_description">Tagliando</string>
     <string name="tires_description">Gomme</string>
     <string name="revision_description">Revisione</string>
+
+
+    <!-- Errors -->
+    <string name="parse_date_error">Errore conversione data</string>
+
+    <!-- User messages -->
+    <string name="insurance_saved">Nuova assicurazione aggiunta con successo</string>
 </resources>
