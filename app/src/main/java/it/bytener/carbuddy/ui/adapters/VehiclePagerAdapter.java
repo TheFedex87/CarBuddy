@@ -46,9 +46,9 @@ public class VehiclePagerAdapter extends PagerAdapter {
 
         LayoutInflater layoutInflater = (LayoutInflater.from(context));
         view = layoutInflater.inflate(R.layout.vehicle_adapter_element, container, false);
-        TextView brandTextView = view.findViewById(R.id.vehicle_brand);
+        /*TextView brandTextView = view.findViewById(R.id.vehicle_brand);
         String brand = vehicles.get(position).getBrand();
-        brandTextView.setText(brand);
+        brandTextView.setText(brand);*/
 
         container.addView(view);
 

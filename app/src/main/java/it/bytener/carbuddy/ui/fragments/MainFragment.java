@@ -78,10 +78,10 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
     private MainFragmentViewModel mainFragmentViewModel;
     private MainFragmentViewModelFactory mainFragmentViewModelFactory;
 
-    @BindView(R.id.button_add_vehicle)
+    /*@BindView(R.id.button_add_vehicle)
     Button addVehicleButton;
     @BindView(R.id.button_add_payment)
-    Button addPaymentButton;
+    Button addPaymentButton;*/
     @BindView(R.id.vehicles_photo_pager)
     ViewPager vehiclesPager;
     @BindView(R.id.next_reminders_recycler_view)
@@ -122,7 +122,7 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
                 .response(this)
                 .build();
 
-        setupViewModel();
+        //setupViewModel();
     }
 
     @Nullable
@@ -191,14 +191,14 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
         nextRemindersRecyclerView.setAdapter(reminderAdapter);
         nextRemindersRecyclerView.setLayoutManager(userInterfaceComponent.getLinearLayoutManager());
 
-        addVehicleButton.setOnClickListener(v -> {
+        /*addVehicleButton.setOnClickListener(v -> {
             Vehicle vehicle = new Vehicle();
             vehicle.setModel("Serie 1");
             vehicle.setBrand("BMW");
             mainFragmentViewModel.setVehicle(vehicle);
-        });
+        });*/
 
-        addPaymentButton.setOnClickListener(v -> {
+        /*addPaymentButton.setOnClickListener(v -> {
             if(sharedPreferences.contains("vehicle_index")) {
                 long vehicleIndex = vehicleList.get(sharedPreferences.getInt("vehicle_index", 0)).getId();
                 CarTax carTax = new CarTax();
@@ -206,11 +206,11 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
                 carTax.setVehicleId(vehicleIndex);
                 mainFragmentViewModel.setCarTax(carTax);
             }
-            /*Payment payment = new Payment();
-            payment.setDescription("Bollo");
-            payment.setVehicleId(rnd.nextInt(5));
-            mainFragmentViewModel.setPayment(payment);*/
-        });
+            //Payment payment = new Payment();
+            //payment.setDescription("Bollo");
+            //payment.setVehicleId(rnd.nextInt(5));
+            //mainFragmentViewModel.setPayment(payment);
+        });*/
 
         addPaymentFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -225,11 +225,18 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
         return rootView;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        setupViewModel();
+    }
+
     private void setupViewModel(){
         mainFragmentViewModelFactory = viewModelComponent.getMainFragmentViewModelFactory();
         mainFragmentViewModel = ViewModelProviders.of(this, mainFragmentViewModelFactory).get(MainFragmentViewModel.class);
 
-        mainFragmentViewModel.getVehicles().observe(this, vehicles -> {
+        mainFragmentViewModel.getVehicles().observe(getViewLifecycleOwner(), vehicles -> {
             List<IVehicle> iVehicles = new ArrayList<IVehicle>(vehicles);
             if(vehiclePagerAdapter != null){
                 vehiclePagerAdapter.swapVehicles(iVehicles);
@@ -254,14 +261,14 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
                 }
             }
         });*/
-        mainFragmentViewModel.getCarTaxes().observe(this, new Observer<List<CarTax>>() {
+        mainFragmentViewModel.getCarTaxes().observe(getViewLifecycleOwner(), new Observer<List<CarTax>>() {
             @Override
             public void onChanged(List<CarTax> carTaxes) {
                 carTaxList = carTaxes;
                 regenerateReminderList();
             }
         });
-        mainFragmentViewModel.getInsurances().observe(this, new Observer<List<Insurance>>() {
+        mainFragmentViewModel.getInsurances().observe(getViewLifecycleOwner(), new Observer<List<Insurance>>() {
             @Override
             public void onChanged(List<Insurance> insurances) {
                 insuranceList = insurances;
