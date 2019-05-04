@@ -8,13 +8,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import dagger.BindsInstance;
 import dagger.Component;
 import it.bytener.carbuddy.dagger.scopes.PerFragment;
+import it.bytener.carbuddy.interfaces.IBackgroundOperationResponse;
 import it.bytener.carbuddy.interfaces.models.IReminder;
 import it.bytener.carbuddy.interfaces.models.IVehicle;
 import it.bytener.carbuddy.ui.fragments.MainFragment;
+import it.bytener.carbuddy.ui.viewmodels.AddOperationViewModelFactory;
+import it.bytener.carbuddy.ui.viewmodels.MainFragmentViewModelFactory;
 
 @PerFragment
 @Component(dependencies = ApplicationComponent.class, modules = { UserInterfaceModule.class })
-public interface UserInterfaceComponent {
+public interface MainFragmentComponent {
+    //MainFragmentViewModelFactory getMainFragmentViewModelFactory();
+
     void inject(MainFragment mainFragment);
 
     LinearLayoutManager getLinearLayoutManager();
@@ -34,6 +39,9 @@ public interface UserInterfaceComponent {
         @BindsInstance
         Builder headerView(View headerView);
 
-        UserInterfaceComponent build();
+        @BindsInstance
+        Builder response(IBackgroundOperationResponse response);
+
+        MainFragmentComponent build();
     }
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -13,7 +14,7 @@ import it.bytener.carbuddy.interfaces.IBackgroundOperationResponse;
 import it.bytener.carbuddy.interfaces.IInsuranceProvider;
 import it.bytener.carbuddy.room.entities.Insurance;
 
-@PerFragment
+@Singleton
 public class MockInsuranceProvider implements IInsuranceProvider {
 
     private MutableLiveData<List<Insurance>> insurances;

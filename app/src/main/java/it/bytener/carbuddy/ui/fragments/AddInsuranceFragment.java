@@ -11,7 +11,6 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 import javax.inject.Inject;
 
@@ -22,17 +21,11 @@ import androidx.lifecycle.ViewModelProviders;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.bytener.carbuddy.R;
-import it.bytener.carbuddy.application.CarBuddyApplication;
-import it.bytener.carbuddy.dagger.DaggerApplicationComponent;
-import it.bytener.carbuddy.dagger.ViewModelComponent;
-import it.bytener.carbuddy.interfaces.IBackgroundOperationResponse;
-import it.bytener.carbuddy.interfaces.ICarTaxProvider;
-import it.bytener.carbuddy.interfaces.IInsuranceProvider;
+import it.bytener.carbuddy.dagger.AddPaymentFragmentComponent;
 import it.bytener.carbuddy.interfaces.IOperationSaver;
-import it.bytener.carbuddy.room.AppDatabase;
 import it.bytener.carbuddy.room.entities.Insurance;
 import it.bytener.carbuddy.ui.viewmodels.AddOperationViewModel;
-import it.bytener.carbuddy.ui.viewmodels.MainFragmentViewModel;
+import it.bytener.carbuddy.ui.viewmodels.AddOperationViewModelFactory;
 
 public class AddInsuranceFragment extends Fragment implements IOperationSaver {
     @BindView(R.id.insurance_cost)
@@ -45,7 +38,6 @@ public class AddInsuranceFragment extends Fragment implements IOperationSaver {
     TextInputEditText companyName;
     @BindView(R.id.insurance_note)
     TextInputEditText note;
-
 
     public AddInsuranceFragment(){
 
@@ -103,9 +95,9 @@ public class AddInsuranceFragment extends Fragment implements IOperationSaver {
     }
 
     @Override
-    public void saveOperation(ViewModelComponent viewModelComponent, long vehicleId) {
-        //viewModelComponent.inject(this);
-        AddOperationViewModel addOperationViewModel = ViewModelProviders.of(this, viewModelComponent.getAddPaymentViewModelFactory()).get(AddOperationViewModel.class);
+    public void saveOperation(AddPaymentFragmentComponent addPaymentFragmentComponent, long vehicleId) {
+        //addPaymentFragmentComponent.inject(this);
+        AddOperationViewModel addOperationViewModel = ViewModelProviders.of(this, addPaymentFragmentComponent.getAddPaymentViewModelFactory()).get(AddOperationViewModel.class);
 
         Insurance insurance = new Insurance();
         insurance.setInsuranceCompanyName(String.valueOf(companyName.getText()));

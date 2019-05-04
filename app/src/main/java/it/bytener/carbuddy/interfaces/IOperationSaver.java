@@ -1,7 +1,7 @@
 package it.bytener.carbuddy.interfaces;
 
-import it.bytener.carbuddy.dagger.ViewModelComponent;
+import it.bytener.carbuddy.dagger.AddPaymentFragmentComponent;
 
 public interface IOperationSaver {
-    void saveOperation(ViewModelComponent viewModelComponent, long vehicleId);
+    void saveOperation(AddPaymentFragmentComponent addPaymentFragmentComponent, long vehicleId);
 }

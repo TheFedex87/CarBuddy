@@ -14,7 +14,7 @@ import it.bytener.carbuddy.room.AppDatabase;
 import it.bytener.carbuddy.room.providers.VehicleProvider;
 
 @Module
-public class ApplicationModule {
+public abstract class ApplicationModule {
     //private Context context;
 
     /*public ApplicationModule(Context context){
@@ -38,4 +38,6 @@ public class ApplicationModule {
     public static SharedPreferences provideSharedPreferences(Context context){
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
+
+
 }

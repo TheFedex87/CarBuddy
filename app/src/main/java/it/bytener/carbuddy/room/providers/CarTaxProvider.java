@@ -3,6 +3,7 @@ package it.bytener.carbuddy.room.providers;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import androidx.lifecycle.LiveData;
 import it.bytener.carbuddy.dagger.scopes.PerFragment;
@@ -14,7 +15,7 @@ import it.bytener.carbuddy.room.AppDatabase;
 import it.bytener.carbuddy.room.entities.CarTax;
 import it.bytener.carbuddy.room.entities.Payment;
 
-@PerFragment
+@Singleton
 public class CarTaxProvider implements ICarTaxProvider {
     private AppDatabase db;
 
