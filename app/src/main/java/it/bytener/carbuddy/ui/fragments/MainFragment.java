@@ -72,16 +72,15 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
     @Inject
     public NavigationDrawerHeaderViewHolder navigationDrawerHeaderViewHolder;
 
-    //private AddPaymentFragmentComponent viewModelComponent;
     private MainFragmentComponent mainFragmentComponent;
 
     private MainFragmentViewModel mainFragmentViewModel;
     @Inject
     MainFragmentViewModelFactory mainFragmentViewModelFactory;
 
-    @BindView(R.id.button_add_vehicle)
+    /*@BindView(R.id.button_add_vehicle)
     Button addVehicleButton;
-    /*@BindView(R.id.button_add_payment)
+    @BindView(R.id.button_add_payment)
     Button addPaymentButton;*/
     @BindView(R.id.vehicles_photo_pager)
     ViewPager vehiclesPager;
@@ -212,14 +211,14 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
         nextRemindersRecyclerView.setAdapter(reminderAdapter);
         nextRemindersRecyclerView.setLayoutManager(mainFragmentComponent.getLinearLayoutManager());
 
-        addVehicleButton.setOnClickListener(v -> {
+        /*addVehicleButton.setOnClickListener(v -> {
             Vehicle vehicle = new Vehicle();
             vehicle.setModel("Serie 1");
             vehicle.setBrand("BMW");
             mainFragmentViewModel.setVehicle(vehicle);
         });
 
-        /*addPaymentButton.setOnClickListener(v -> {
+        addPaymentButton.setOnClickListener(v -> {
             if(sharedPreferences.contains("vehicle_index")) {
                 long vehicleIndex = vehicleList.get(sharedPreferences.getInt("vehicle_index", 0)).getId();
                 CarTax carTax = new CarTax();
@@ -255,6 +254,13 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        setupViewModel();
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -263,28 +269,10 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
 
         if (id == R.id.open_vehicles) {
             Navigation.findNavController(this.getView()).navigate(R.id.action_mainFragment_to_addVehicleFragment);
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
         }
 
-        //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerLayout.closeDrawer(GravityCompat.START);
         return false;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        setupViewModel();
     }
 
     private void setupViewModel(){

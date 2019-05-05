@@ -32,7 +32,6 @@ import it.bytener.carbuddy.interfaces.ICarTaxProvider;
 import it.bytener.carbuddy.interfaces.IInsuranceProvider;
 import it.bytener.carbuddy.room.entities.Insurance;
 import it.bytener.carbuddy.ui.adapters.OperationPagerAdapter;
-import it.bytener.carbuddy.ui.viewmodels.AddOperationViewModelFactory;
 
 public class AddPaymentFragment extends Fragment implements IBackgroundOperationResponse {
     private Context context;
@@ -54,9 +53,6 @@ public class AddPaymentFragment extends Fragment implements IBackgroundOperation
     IInsuranceProvider insuranceProvider;
     @Inject
     ICarTaxProvider carTaxProvider;
-
-    private AddOperationViewModelFactory operationViewModelFactory;
-
 
     public AddPaymentFragment(){
 
@@ -85,9 +81,7 @@ public class AddPaymentFragment extends Fragment implements IBackgroundOperation
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case(R.id.action_save):
-
                 operationPagerAdapter.saveCurrentOperation(addOperationPager.getCurrentItem(), vehicleId, addPaymentFragmentComponent);
-
                 break;
         }
         return super.onOptionsItemSelected(item);
