@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,8 +22,11 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -49,7 +53,8 @@ import it.bytener.carbuddy.ui.adapters.VehiclePagerAdapter;
 import it.bytener.carbuddy.ui.viewmodels.MainFragmentViewModel;
 import it.bytener.carbuddy.ui.viewmodels.MainFragmentViewModelFactory;
 
-public class MainFragment extends Fragment implements IBackgroundOperationResponse {
+public class MainFragment extends Fragment implements IBackgroundOperationResponse,
+        NavigationView.OnNavigationItemSelectedListener {
     private boolean firstLoadDone = false;
 
     private Context context;
@@ -88,11 +93,16 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
     CollapsingToolbarLayout collapsingToolbarLayout;
 
     //NavigationDrawer
-    //@BindView(R.id.nav_view)
-    //NavigationView navigationDrawer;
+    @BindView(R.id.nav_view)
+    NavigationView navigationDrawer;
+
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
 
     @BindView(R.id.add_operation_fab)
     FloatingActionButton addPaymentFab;
+
+    ActionBarDrawerToggle toggle;
 
     private final SharedPreferences sharedPreferences = CarBuddyApplication.appComponent().getSharedPreferences();
 
@@ -121,12 +131,25 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
         //setupViewModel();
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         ButterKnife.bind(this, rootView);
+
+        navigationDrawer.setNavigationItemSelectedListener(this);
+
+        toggle = new ActionBarDrawerToggle(
+                getActivity(), drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
 
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
@@ -139,7 +162,8 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
                 .userInterfaceModule(new UserInterfaceModule(LinearLayoutManager.VERTICAL))
                 .vehicleList(vehicleList)
                 .reminderList(reminderList)
-                .headerView(((NavigationView)(getActivity().findViewById(R.id.nav_view))).getHeaderView(0))
+                //.headerView(((NavigationView)(getActivity().findViewById(R.id.nav_view))).getHeaderView(0))
+                .headerView(navigationDrawer.getHeaderView(0))
                 .response(this)
                 .build();
 
@@ -220,6 +244,40 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
         });
 
         return rootView;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(toggle.onOptionsItemSelected(item)){
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.open_vehicles) {
+            Navigation.findNavController(this.getView()).navigate(R.id.action_mainFragment_to_addVehicleFragment);
+        } else if (id == R.id.nav_gallery) {
+
+        } else if (id == R.id.nav_slideshow) {
+
+        } else if (id == R.id.nav_manage) {
+
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_send) {
+
+        }
+
+        //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return false;
     }
 
     @Override

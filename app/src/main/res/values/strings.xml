@@ -19,6 +19,10 @@
     <string name="insurance_company_name_hint">Compagnia assicurativa</string>
     <string name="insurance_note_hint">Note</string>
 
+    <string name="vehicle_brand">Brand</string>
+    <string name="vehicle_model">Model</string>
+    <string name="vehicles">Vehicles</string>
+
     <string name="car_tax_description">Bollo</string>
     <string name="maintenance_description">Tagliando</string>
     <string name="tires_description">Gomme</string>

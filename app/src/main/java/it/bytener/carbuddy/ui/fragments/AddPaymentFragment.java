@@ -113,7 +113,7 @@ public class AddPaymentFragment extends Fragment implements IBackgroundOperation
 
         vehicleId = AddPaymentFragmentArgs.fromBundle(getArguments()).getVehicleId();
 
-        operationPagerAdapter = new OperationPagerAdapter(getChildFragmentManager(), context);
+        //operationPagerAdapter = new OperationPagerAdapter(getChildFragmentManager(), context);
         addOperationPager.setAdapter(operationPagerAdapter);
 
         addOperationTab.setTabGravity(TabLayout.GRAVITY_FILL);
