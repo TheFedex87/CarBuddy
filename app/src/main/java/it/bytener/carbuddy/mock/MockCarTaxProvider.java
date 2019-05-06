@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -15,7 +16,7 @@ import it.bytener.carbuddy.room.AppDatabase;
 import it.bytener.carbuddy.room.entities.CarTax;
 import it.bytener.carbuddy.room.providers.CarTaxProvider;
 
-@PerFragment
+@Singleton
 public class MockCarTaxProvider implements ICarTaxProvider {
     private MutableLiveData<List<CarTax>> carTaxes;
 

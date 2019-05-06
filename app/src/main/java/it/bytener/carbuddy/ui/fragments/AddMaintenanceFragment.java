@@ -9,10 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import it.bytener.carbuddy.R;
-import it.bytener.carbuddy.dagger.ViewModelComponent;
-import it.bytener.carbuddy.interfaces.IBackgroundOperationResponse;
-import it.bytener.carbuddy.interfaces.ICarTaxProvider;
-import it.bytener.carbuddy.interfaces.IInsuranceProvider;
+import it.bytener.carbuddy.dagger.AddPaymentFragmentComponent;
 import it.bytener.carbuddy.interfaces.IOperationSaver;
 
 public class AddMaintenanceFragment extends Fragment implements IOperationSaver {
@@ -28,7 +25,7 @@ public class AddMaintenanceFragment extends Fragment implements IOperationSaver 
     }
 
     @Override
-    public void saveOperation(ViewModelComponent viewModelComponent, long vehicleId) {
+    public void saveOperation(AddPaymentFragmentComponent addPaymentFragmentComponent, long vehicleId) {
 
     }
 }

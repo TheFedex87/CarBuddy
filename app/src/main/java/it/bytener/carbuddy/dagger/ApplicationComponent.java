@@ -7,17 +7,22 @@ import javax.inject.Singleton;
 
 import dagger.BindsInstance;
 import dagger.Component;
+import it.bytener.carbuddy.interfaces.ICarTaxProvider;
+import it.bytener.carbuddy.interfaces.IInsuranceProvider;
+import it.bytener.carbuddy.interfaces.IVehicleProvider;
 import it.bytener.carbuddy.room.AppDatabase;
 import it.bytener.carbuddy.ui.fragments.MainFragment;
 
 @Singleton
-@Component(modules = { ApplicationModule.class })
+@Component(modules = { ApplicationModule.class, ProviderModule.class })
 public interface ApplicationComponent {
-    //void inject(MainFragment mainFragment);
-
     Context getContext();
     AppDatabase getAppDatabase();
     SharedPreferences getSharedPreferences();
+
+    IVehicleProvider getVehicleProvider();
+    IInsuranceProvider getInsuranceProvider();
+    ICarTaxProvider getCarTaxProvider();
 
     @Component.Builder
     interface Builder {

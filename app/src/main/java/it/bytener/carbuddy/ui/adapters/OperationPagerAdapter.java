@@ -3,14 +3,14 @@ package it.bytener.carbuddy.ui.adapters;
 import android.content.Context;
 import android.view.ViewGroup;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import it.bytener.carbuddy.dagger.ViewModelComponent;
-import it.bytener.carbuddy.interfaces.IBackgroundOperationResponse;
-import it.bytener.carbuddy.interfaces.ICarTaxProvider;
-import it.bytener.carbuddy.interfaces.IInsuranceProvider;
+import it.bytener.carbuddy.dagger.AddPaymentFragmentComponent;
+import it.bytener.carbuddy.dagger.scopes.PerFragment;
 import it.bytener.carbuddy.interfaces.IOperationSaver;
 import it.bytener.carbuddy.ui.fragments.AddCarTaxFragment;
 import it.bytener.carbuddy.ui.fragments.AddInsuranceFragment;
@@ -18,11 +18,13 @@ import it.bytener.carbuddy.ui.fragments.AddMaintenanceFragment;
 import it.bytener.carbuddy.ui.fragments.AddRevisionFragment;
 import it.bytener.carbuddy.ui.fragments.AddTireFragment;
 
+@PerFragment
 public class OperationPagerAdapter extends FragmentPagerAdapter {
 
     private IOperationSaver[] fragments;
     private Context context;
 
+    @Inject
     public OperationPagerAdapter(FragmentManager fragmentManager, Context context){
         super(fragmentManager);
         fragments = new IOperationSaver[5];
@@ -66,7 +68,7 @@ public class OperationPagerAdapter extends FragmentPagerAdapter {
         return 5;
     }
 
-    public void saveCurrentOperation(int position, long vehicleId, ViewModelComponent viewModelComponent){
-        fragments[position].saveOperation(viewModelComponent, vehicleId);
+    public void saveCurrentOperation(int position, long vehicleId, AddPaymentFragmentComponent addPaymentFragmentComponent){
+        fragments[position].saveOperation(addPaymentFragmentComponent, vehicleId);
     }
 }

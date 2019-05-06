@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,13 +22,14 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,17 +38,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.bytener.carbuddy.R;
 import it.bytener.carbuddy.application.CarBuddyApplication;
-import it.bytener.carbuddy.dagger.DaggerUserInterfaceComponent;
-import it.bytener.carbuddy.dagger.DaggerViewModelComponent;
-import it.bytener.carbuddy.dagger.UserInterfaceComponent;
+import it.bytener.carbuddy.dagger.DaggerMainFragmentComponent;
+import it.bytener.carbuddy.dagger.MainFragmentComponent;
 import it.bytener.carbuddy.dagger.UserInterfaceModule;
-import it.bytener.carbuddy.dagger.ViewModelComponent;
 import it.bytener.carbuddy.interfaces.IBackgroundOperationResponse;
 import it.bytener.carbuddy.interfaces.models.IReminder;
 import it.bytener.carbuddy.interfaces.models.IVehicle;
 import it.bytener.carbuddy.room.entities.CarTax;
 import it.bytener.carbuddy.room.entities.Insurance;
-import it.bytener.carbuddy.room.entities.Payment;
 import it.bytener.carbuddy.room.entities.Vehicle;
 import it.bytener.carbuddy.ui.NavigationDrawerHeaderViewHolder;
 import it.bytener.carbuddy.ui.adapters.ReminderAdapter;
@@ -54,7 +53,8 @@ import it.bytener.carbuddy.ui.adapters.VehiclePagerAdapter;
 import it.bytener.carbuddy.ui.viewmodels.MainFragmentViewModel;
 import it.bytener.carbuddy.ui.viewmodels.MainFragmentViewModelFactory;
 
-public class MainFragment extends Fragment implements IBackgroundOperationResponse {
+public class MainFragment extends Fragment implements IBackgroundOperationResponse,
+        NavigationView.OnNavigationItemSelectedListener {
     private boolean firstLoadDone = false;
 
     private Context context;
@@ -72,11 +72,11 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
     @Inject
     public NavigationDrawerHeaderViewHolder navigationDrawerHeaderViewHolder;
 
-    private ViewModelComponent viewModelComponent;
-    private UserInterfaceComponent userInterfaceComponent;
+    private MainFragmentComponent mainFragmentComponent;
 
     private MainFragmentViewModel mainFragmentViewModel;
-    private MainFragmentViewModelFactory mainFragmentViewModelFactory;
+    @Inject
+    MainFragmentViewModelFactory mainFragmentViewModelFactory;
 
     /*@BindView(R.id.button_add_vehicle)
     Button addVehicleButton;
@@ -92,11 +92,16 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
     CollapsingToolbarLayout collapsingToolbarLayout;
 
     //NavigationDrawer
-    //@BindView(R.id.nav_view)
-    //NavigationView navigationDrawer;
+    @BindView(R.id.nav_view)
+    NavigationView navigationDrawer;
+
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
 
     @BindView(R.id.add_operation_fab)
     FloatingActionButton addPaymentFab;
+
+    ActionBarDrawerToggle toggle;
 
     private final SharedPreferences sharedPreferences = CarBuddyApplication.appComponent().getSharedPreferences();
 
@@ -116,13 +121,19 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
         //CarBuddyApplication.appComponent().inject(this);
 
 
-        viewModelComponent = DaggerViewModelComponent
+        /*viewModelComponent = DaggerAddPaymentFragmentComponent
                 .builder()
                 .applicationComponent(CarBuddyApplication.appComponent())
                 .response(this)
-                .build();
+                .build();*/
 
         //setupViewModel();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -132,21 +143,30 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
 
         ButterKnife.bind(this, rootView);
 
+        navigationDrawer.setNavigationItemSelectedListener(this);
+
+        toggle = new ActionBarDrawerToggle(
+                getActivity(), drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
         //vehiclePagerAdapter = new VehiclePagerAdapter(context, vehicleList);
         if(vehicleList == null) vehicleList = new ArrayList<>();
         if(reminderList == null) reminderList = new ArrayList<>();
-        userInterfaceComponent = DaggerUserInterfaceComponent
+        mainFragmentComponent = DaggerMainFragmentComponent
                 .builder()
                 .applicationComponent(CarBuddyApplication.appComponent())
                 .userInterfaceModule(new UserInterfaceModule(LinearLayoutManager.VERTICAL))
                 .vehicleList(vehicleList)
                 .reminderList(reminderList)
-                .headerView(((NavigationView)(getActivity().findViewById(R.id.nav_view))).getHeaderView(0))
+                //.headerView(((NavigationView)(getActivity().findViewById(R.id.nav_view))).getHeaderView(0))
+                .headerView(navigationDrawer.getHeaderView(0))
+                .response(this)
                 .build();
 
-        userInterfaceComponent.inject(this);
+        mainFragmentComponent.inject(this);
 
         vehiclesPager.setAdapter(vehiclePagerAdapter);
         vehiclesPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -191,16 +211,16 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
 
         //reminderAdapter = new ReminderAdapter(reminderList);
         nextRemindersRecyclerView.setAdapter(reminderAdapter);
-        nextRemindersRecyclerView.setLayoutManager(userInterfaceComponent.getLinearLayoutManager());
+        nextRemindersRecyclerView.setLayoutManager(mainFragmentComponent.getLinearLayoutManager());
 
         /*addVehicleButton.setOnClickListener(v -> {
             Vehicle vehicle = new Vehicle();
             vehicle.setModel("Serie 1");
             vehicle.setBrand("BMW");
             mainFragmentViewModel.setVehicle(vehicle);
-        });*/
+        });
 
-        /*addPaymentButton.setOnClickListener(v -> {
+        addPaymentButton.setOnClickListener(v -> {
             if(sharedPreferences.contains("vehicle_index")) {
                 long vehicleIndex = vehicleList.get(sharedPreferences.getInt("vehicle_index", 0)).getId();
                 CarTax carTax = new CarTax();
@@ -228,14 +248,37 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(toggle.onOptionsItemSelected(item)){
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         setupViewModel();
     }
 
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.open_vehicles) {
+            Navigation.findNavController(this.getView()).navigate(R.id.action_mainFragment_to_addVehicleFragment);
+        }
+
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return false;
+    }
+
     private void setupViewModel(){
-        mainFragmentViewModelFactory = viewModelComponent.getMainFragmentViewModelFactory();
+        //mainFragmentViewModelFactory = viewModelComponent.getMainFragmentViewModelFactory();
         mainFragmentViewModel = ViewModelProviders.of(getActivity(), mainFragmentViewModelFactory).get(MainFragmentViewModel.class);
 
         mainFragmentViewModel.getVehicles().observe(getViewLifecycleOwner(), vehicles -> {

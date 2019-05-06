@@ -8,14 +8,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-
-import java.util.Calendar;
 
 import javax.inject.Inject;
 
@@ -23,31 +20,27 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import dagger.BindsInstance;
 import it.bytener.carbuddy.R;
 import it.bytener.carbuddy.application.CarBuddyApplication;
-import it.bytener.carbuddy.dagger.DaggerApplicationComponent;
-import it.bytener.carbuddy.dagger.DaggerViewModelComponent;
-import it.bytener.carbuddy.dagger.ViewModelComponent;
+import it.bytener.carbuddy.dagger.DaggerAddPaymentFragmentComponent;
+import it.bytener.carbuddy.dagger.AddPaymentFragmentComponent;
 import it.bytener.carbuddy.interfaces.IBackgroundOperationResponse;
 import it.bytener.carbuddy.interfaces.ICarTaxProvider;
 import it.bytener.carbuddy.interfaces.IInsuranceProvider;
 import it.bytener.carbuddy.room.entities.Insurance;
-import it.bytener.carbuddy.room.entities.Vehicle;
 import it.bytener.carbuddy.ui.adapters.OperationPagerAdapter;
-import it.bytener.carbuddy.ui.viewmodels.AddOperationViewModelFactory;
 
 public class AddPaymentFragment extends Fragment implements IBackgroundOperationResponse {
     private Context context;
     private long vehicleId;
 
-    private ViewModelComponent viewModelComponent;
+    private AddPaymentFragmentComponent addPaymentFragmentComponent;
 
-    private OperationPagerAdapter operationPagerAdapter;
+    @Inject
+    OperationPagerAdapter operationPagerAdapter;
 
     @BindView(R.id.add_operation_tab)
     TabLayout addOperationTab;
@@ -61,9 +54,6 @@ public class AddPaymentFragment extends Fragment implements IBackgroundOperation
     @Inject
     ICarTaxProvider carTaxProvider;
 
-    private AddOperationViewModelFactory operationViewModelFactory;
-
-
     public AddPaymentFragment(){
 
     }
@@ -72,14 +62,6 @@ public class AddPaymentFragment extends Fragment implements IBackgroundOperation
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context = context;
-
-
-
-        viewModelComponent = DaggerViewModelComponent
-                .builder()
-                .applicationComponent(CarBuddyApplication.appComponent())
-                .response(this)
-                .build();
     }
 
     @Override
@@ -99,9 +81,7 @@ public class AddPaymentFragment extends Fragment implements IBackgroundOperation
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case(R.id.action_save):
-
-                operationPagerAdapter.saveCurrentOperation(addOperationPager.getCurrentItem(), vehicleId, viewModelComponent);
-
+                operationPagerAdapter.saveCurrentOperation(addOperationPager.getCurrentItem(), vehicleId, addPaymentFragmentComponent);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -114,19 +94,20 @@ public class AddPaymentFragment extends Fragment implements IBackgroundOperation
 
         ButterKnife.bind(this, rootView);
 
-        viewModelComponent = DaggerViewModelComponent
+        addPaymentFragmentComponent = DaggerAddPaymentFragmentComponent
                 .builder()
                 .applicationComponent(CarBuddyApplication.appComponent())
                 .response(this)
+                .fragmentManager(getChildFragmentManager())
                 .build();
-        operationViewModelFactory = viewModelComponent.getAddPaymentViewModelFactory();
-        viewModelComponent.inject(this);
+        //operationViewModelFactory = addPaymentFragmentComponent.getAddPaymentViewModelFactory();
+        addPaymentFragmentComponent.inject(this);
 
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
         vehicleId = AddPaymentFragmentArgs.fromBundle(getArguments()).getVehicleId();
 
-        operationPagerAdapter = new OperationPagerAdapter(getChildFragmentManager(), context);
+        //operationPagerAdapter = new OperationPagerAdapter(getChildFragmentManager(), context);
         addOperationPager.setAdapter(operationPagerAdapter);
 
         addOperationTab.setTabGravity(TabLayout.GRAVITY_FILL);
