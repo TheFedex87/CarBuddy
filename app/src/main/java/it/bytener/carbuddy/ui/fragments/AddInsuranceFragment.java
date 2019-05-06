@@ -105,7 +105,7 @@ public class AddInsuranceFragment extends Fragment implements IOperationSaver {
     @Override
     public void saveOperation(ViewModelComponent viewModelComponent, long vehicleId) {
         //viewModelComponent.inject(this);
-        AddOperationViewModel addOperationViewModel = ViewModelProviders.of(this, viewModelComponent.getAddPaymentViewModelFactory()).get(AddOperationViewModel.class);
+        MainFragmentViewModel addOperationViewModel = ViewModelProviders.of(getActivity()).get(MainFragmentViewModel.class);
 
         Insurance insurance = new Insurance();
         insurance.setInsuranceCompanyName(String.valueOf(companyName.getText()));
@@ -128,6 +128,6 @@ public class AddInsuranceFragment extends Fragment implements IOperationSaver {
         insurance.setPaymentDate(paymentDateMillis);
         insurance.setVehicleId(vehicleId);
 
-        addOperationViewModel.insertInsurance(insurance);
+        addOperationViewModel.setInsurance(insurance);
     }
 }

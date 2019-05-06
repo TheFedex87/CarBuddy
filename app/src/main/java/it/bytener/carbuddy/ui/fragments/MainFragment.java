@@ -163,6 +163,8 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
                 editor.apply();
 
                 bindNavigationViewVehicle(vehicleList.get(position));
+
+                mainFragmentViewModel.setSelectedVehicle(vehicleList.get(position));
             }
 
             @Override
@@ -234,7 +236,7 @@ public class MainFragment extends Fragment implements IBackgroundOperationRespon
 
     private void setupViewModel(){
         mainFragmentViewModelFactory = viewModelComponent.getMainFragmentViewModelFactory();
-        mainFragmentViewModel = ViewModelProviders.of(this, mainFragmentViewModelFactory).get(MainFragmentViewModel.class);
+        mainFragmentViewModel = ViewModelProviders.of(getActivity(), mainFragmentViewModelFactory).get(MainFragmentViewModel.class);
 
         mainFragmentViewModel.getVehicles().observe(getViewLifecycleOwner(), vehicles -> {
             List<IVehicle> iVehicles = new ArrayList<IVehicle>(vehicles);
